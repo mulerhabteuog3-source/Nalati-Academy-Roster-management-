@@ -1,0 +1,370 @@
+﻿Grade,Program,Day,Period,Subject,TeacherID
+1,am,0,1,Amharic,T003
+1,am,0,2,HPE,T010
+1,am,0,3,English,T001
+1,am,0,4,Science,T013
+1,am,0,5,Afaan Oromoo,T011
+1,am,0,6,ICT,T015
+1,am,0,7,Maths,T015
+1,am,1,1,Science,T013
+1,am,1,2,Maths,T015
+1,am,1,3,HPE,T010
+1,am,1,4,Afaan Oromoo,T011
+1,am,1,5,English,T001
+1,am,1,6,Amharic,T003
+1,am,1,7,Moral,T007
+1,am,2,1,Maths,T015
+1,am,2,2,English 2,T002
+1,am,2,3,PVA,T010
+1,am,2,4,Moral,T007
+1,am,2,5,English,T001
+1,am,2,6,Amharic,T003
+1,am,2,7,Science,T013
+1,am,3,1,Maths,T015
+1,am,3,2,Moral,T007
+1,am,3,3,PVA,T010
+1,am,3,4,English 2,T002
+1,am,3,5,Amharic,T003
+1,am,3,6,English,T001
+1,am,3,7,Science,T013
+1,am,4,1,Handwriting,T002
+1,am,4,2,Science,T013
+1,am,4,3,Amharic,T003
+1,am,4,4,English,T001
+1,am,4,5,Maths,T015
+1,am,4,6,ICT,T015
+1,om,0,1,Science,T008
+1,om,0,2,HPE,T010
+1,om,0,3,Afaan Oromoo,T006
+1,om,0,4,Maths,T009
+1,om,0,5,Amharic,T007
+1,om,0,6,ICT,T015
+1,om,0,7,English,T001
+1,om,1,1,Afaan Oromoo,T006
+1,om,1,2,English 2,T002
+1,om,1,3,Maths,T009
+1,om,1,4,English,T001
+1,om,1,5,Science,T008
+1,om,1,6,Gadaa,T006
+1,om,1,7,Handwriting,T006
+1,om,2,1,English,T001
+1,om,2,2,Science,T008
+1,om,2,3,Gadaa,T006
+1,om,2,4,English 2,T002
+1,om,2,5,Maths,T009
+1,om,2,6,Afaan Oromoo,T006
+1,om,2,7,PVA,T006
+1,om,3,1,Gadaa,T006
+1,om,3,2,Science,T008
+1,om,3,3,English,T001
+1,om,3,4,Maths,T009
+1,om,3,5,Amharic,T007
+1,om,3,6,PVA,T006
+1,om,4,1,Gadaa,T006
+1,om,4,2,Maths,T009
+1,om,4,3,Science,T008
+1,om,4,4,Afaan Oromoo,T006
+1,om,4,5,English,T001
+1,om,4,6,ICT,T015
+2,am,0,1,Science,T015
+2,am,0,2,English,T001
+2,am,0,3,Afaan Oromoo,T011
+2,am,0,4,Moral,T007
+2,am,0,5,HPE,T010
+2,am,0,6,Maths,T013
+2,am,0,7,Amharic,T003
+2,am,1,1,Science,T015
+2,am,1,2,Maths,T013
+2,am,1,3,Afaan Oromoo,T011
+2,am,1,4,Amharic,T003
+2,am,1,5,ICT,T015
+2,am,1,6,Moral,T007
+2,am,1,7,English,T001
+2,am,2,1,Moral,T007
+2,am,2,2,Science,T015
+2,am,2,3,English 2,T002
+2,am,2,4,English,T001
+2,am,2,5,Amharic,T003
+2,am,2,6,Maths,T013
+2,am,2,7,ICT,T015
+2,am,3,1,English 2,T002
+2,am,3,2,English,T001
+2,am,3,3,Science,T015
+2,am,3,4,Amharic,T003
+2,am,3,5,Maths,T013
+2,am,3,6,HPE,T010
+2,am,3,7,PVA,T010
+2,am,4,1,Maths,T013
+2,am,4,2,Science,T015
+2,am,4,3,English,T001
+2,am,4,4,Handwriting,T002
+2,am,4,5,Amharic,T003
+2,am,4,6,PVA,T010
+2,om,0,1,Amharic,T007
+2,om,0,2,Maths,T009
+2,om,0,3,Science,T008
+2,om,0,4,Afaan Oromoo,T006
+2,om,0,5,Gadaa,T006
+2,om,0,6,English,T001
+2,om,1,1,English 2,T002
+2,om,1,2,Maths,T009
+2,om,1,3,Gadaa,T006
+2,om,1,4,Afaan Oromoo,T006
+2,om,1,5,ICT,T015
+2,om,1,6,English,T001
+2,om,1,7,Science,T008
+2,om,2,1,Science,T008
+2,om,2,2,Maths,T009
+2,om,2,3,English,T001
+2,om,2,4,Gadaa,T006
+2,om,2,5,Afaan Oromoo,T006
+2,om,2,6,English 2,T002
+2,om,2,7,ICT,T015
+2,om,3,1,Maths,T009
+2,om,3,2,Gadaa,T006
+2,om,3,3,Science,T008
+2,om,3,4,Afaan Oromoo,T006
+2,om,3,5,English,T001
+2,om,3,6,HPE,T010
+2,om,3,7,Handwriting,T006
+2,om,4,1,Amharic,T007
+2,om,4,2,English,T001
+2,om,4,3,PVA,T006
+2,om,4,4,Science,T008
+2,om,4,5,Gadaa,T006
+2,om,4,6,Maths,T009
+3,am,0,1,English 2,T002
+3,am,0,2,Science,T005
+3,am,0,3,PVA,T010
+3,am,0,4,English,T001
+3,am,0,5,Amharic,T003
+3,am,0,6,Maths,T014
+3,am,0,7,Moral,T007
+3,am,1,1,English,T001
+3,am,1,2,Afaan Oromoo,T011
+3,am,1,3,Moral,T007
+3,am,1,4,Maths,T014
+3,am,1,5,Amharic,T003
+3,am,1,6,Science,T005
+3,am,1,7,HPE,T010
+3,am,2,1,Maths,T014
+3,am,2,2,HPE,T010
+3,am,2,3,Afaan Oromoo,T011
+3,am,2,4,Amharic,T003
+3,am,2,5,Science,T005
+3,am,2,6,Moral,T007
+3,am,2,7,English,T001
+3,am,3,1,English,T001
+3,am,3,2,Science,T005
+3,am,3,3,Amharic,T003
+3,am,3,4,Maths,T014
+3,am,3,5,Handwriting,T002
+3,am,3,6,ICT,T015
+3,am,3,7,English 2,T002
+3,am,4,1,English,T001
+3,am,4,2,Amharic,T003
+3,am,4,3,PVA,T010
+3,am,4,4,ICT,T015
+3,am,4,5,Science,T005
+3,am,4,6,Maths,T014
+3,om,0,1,Gadaa,T006
+3,om,0,2,Science,T008
+3,om,0,3,Maths,T009
+3,om,0,4,English,T004
+3,om,0,5,English 2,T002
+3,om,0,6,Handwriting,T006
+3,om,0,7,PVA,T006
+3,om,1,1,Amharic,T007
+3,om,1,2,Afaan Oromoo,T006
+3,om,1,3,English,T004
+3,om,1,4,Maths,T009
+3,om,1,5,Gadaa,T006
+3,om,1,6,Science,T008
+3,om,1,7,HPE,T010
+3,om,2,1,Gadaa,T006
+3,om,2,2,Afaan Oromoo,T006
+3,om,2,3,Science,T008
+3,om,2,4,Maths,T009
+3,om,2,5,English 2,T002
+3,om,2,6,English,T004
+3,om,3,1,Science,T008
+3,om,3,2,Maths,T009
+3,om,3,3,Afaan Oromoo,T006
+3,om,3,4,English,T004
+3,om,3,5,Gadaa,T006
+3,om,3,6,ICT,T015
+3,om,3,7,Amharic,T007
+3,om,4,1,Maths,T009
+3,om,4,2,Afaan Oromoo,T006
+3,om,4,3,English,T004
+3,om,4,4,ICT,T015
+3,om,4,5,Science,T008
+3,om,4,6,Gadaa,T006
+4,am,0,1,English,T001
+4,am,0,2,Afaan Oromoo,T011
+4,am,0,3,Amharic,T003
+4,am,0,4,Science,T005
+4,am,0,5,ICT,T015
+4,am,0,6,Handwriting,T002
+4,am,0,7,Maths,T014
+4,am,1,1,Afaan Oromoo,T011
+4,am,1,2,English,T001
+4,am,1,3,Moral,T013
+4,am,1,4,Science,T005
+4,am,1,5,Maths,T014
+4,am,1,6,ICT,T015
+4,am,1,7,Amharic,T003
+4,am,2,1,Amharic,T003
+4,am,2,2,English,T001
+4,am,2,3,Science,T005
+4,am,2,4,PVA,T010
+4,am,2,5,Maths,T014
+4,am,2,6,HPE,T010
+4,am,2,7,English 2,T002
+4,am,3,1,PVA,T010
+4,am,3,2,Amharic,T003
+4,am,3,3,English 2,T002
+4,am,3,4,English,T001
+4,am,3,5,Science,T005
+4,am,3,6,Moral,T013
+4,am,3,7,Maths,T014
+4,am,4,1,Science,T005
+4,am,4,2,HPE,T010
+4,am,4,3,Moral,T013
+4,am,4,4,Amharic,T003
+4,am,4,5,Maths,T014
+4,am,4,6,English,T001
+5,am,0,1,Maths,T004
+5,am,0,2,Afaan Oromoo,T011
+5,am,0,3,English,T004
+5,am,0,4,HPE,T010
+5,am,0,5,ICT,T015
+5,am,0,6,Amharic,T003
+5,am,0,7,Science,T005
+5,am,1,1,Afaan Oromoo,T011
+5,am,1,2,Maths,T014
+5,am,1,3,English 2,T002
+5,am,1,4,Moral,T012
+5,am,1,5,English,T004
+5,am,1,6,ICT,T015
+5,am,1,7,Science,T005
+5,am,2,1,Handwriting,T002
+5,am,2,2,Amharic,T003
+5,am,2,3,English,T004
+5,am,2,4,Moral,T012
+5,am,2,5,Maths,T004
+5,am,2,6,Science,T005
+5,am,3,1,Science,T005
+5,am,3,2,Afaan Oromoo,T011
+5,am,3,3,English,T004
+5,am,3,4,HPE,T010
+5,am,3,5,PVA,T010
+5,am,3,6,Maths,T014
+5,am,3,7,Amharic,T003
+5,am,4,1,Maths,T014
+5,am,4,2,English,T004
+5,am,4,3,Science,T005
+5,am,4,4,PVA,T010
+5,am,4,5,English 2,T002
+5,am,4,6,Moral,T012
+6,am,0,1,Science,T005
+6,am,0,2,Amharic,T003
+6,am,0,3,English 2,T002
+6,am,0,4,Maths,T014
+6,am,0,5,English,T004
+6,am,0,6,HPE,T010
+6,am,0,7,Moral,T012
+6,am,1,1,Amharic,T003
+6,am,1,2,Science,T005
+6,am,1,3,Maths,T014
+6,am,1,4,PVA,T010
+6,am,1,5,Afaan Oromoo,T011
+6,am,1,6,English,T004
+6,am,1,7,ICT,T015
+6,am,2,1,Afaan Oromoo,T011
+6,am,2,2,English,T004
+6,am,2,3,Maths,T014
+6,am,2,4,Science,T005
+6,am,2,5,PVA,T010
+6,am,2,6,ICT,T015
+6,am,2,7,Moral,T012
+6,am,3,1,Amharic,T003
+6,am,3,2,Maths,T014
+6,am,3,3,Science,T005
+6,am,3,4,Moral,T012
+6,am,3,5,English,T004
+6,am,3,6,English 2,T002
+6,am,4,1,English,T004
+6,am,4,2,Science,T005
+6,am,4,3,Afaan Oromoo,T011
+6,am,4,4,Maths,T014
+6,am,4,5,HPE,T010
+6,am,4,6,Handwriting,T002
+7,am,0,1,Afaan Oromoo,T011
+7,am,0,2,English,T004
+7,am,0,3,Maths,T014
+7,am,0,4,ICT,T015
+7,am,0,5,Science,T005
+7,am,0,6,Citizen,T012
+7,am,0,7,Social 2,T013
+7,am,1,1,Science,T005
+7,am,1,2,HPE,T010
+7,am,1,3,Amharic,T003
+7,am,1,4,CTE,T015
+7,am,1,5,Social 1,T012
+7,am,1,6,Maths,T014
+7,am,1,7,English,T004
+7,am,2,1,HPE,T010
+7,am,2,2,Science,T005
+7,am,2,3,Citizen,T012
+7,am,2,4,English,T004
+7,am,2,5,Social 1,T012
+7,am,2,6,Maths,T014
+7,am,2,7,Amharic,T003
+7,am,3,1,English,T004
+7,am,3,2,PVA,T010
+7,am,3,3,Afaan Oromoo,T011
+7,am,3,4,ICT,T015
+7,am,3,5,Maths,T014
+7,am,3,6,Amharic,T003
+7,am,3,7,Science,T005
+7,am,4,1,PVA,T010
+7,am,4,2,Afaan Oromoo,T011
+7,am,4,3,Maths,T014
+7,am,4,4,Citizen,T012
+7,am,4,5,English,T004
+7,am,4,6,Science,T005
+8,am,0,1,HPE,T010
+8,am,0,2,Maths,T014
+8,am,0,3,Science,T005
+8,am,0,4,Amharic,T003
+8,am,0,5,Social 2,T013
+8,am,0,6,English,T004
+8,am,0,7,PVA,T010
+8,am,1,1,Maths,T014
+8,am,1,2,Amharic,T003
+8,am,1,3,Science,T005
+8,am,1,4,English,T004
+8,am,1,5,PVA,T010
+8,am,1,6,HPE,T010
+8,am,1,7,Citizen,T012
+8,am,2,1,Science,T005
+8,am,2,2,Afaan Oromoo,T011
+8,am,2,3,Amharic,T003
+8,am,2,4,Maths,T014
+8,am,2,5,CTE,T015
+8,am,2,6,Social 1,T012
+8,am,2,7,English,T004
+8,am,3,1,Afaan Oromoo,T011
+8,am,3,2,English,T004
+8,am,3,3,Maths,T014
+8,am,3,4,Science,T005
+8,am,3,5,ICT,T015
+8,am,3,6,Citizen,T012
+8,am,3,7,Social 1,T012
+8,am,4,1,Afaan Oromoo,T011
+8,am,4,2,Maths,T014
+8,am,4,3,ICT,T015
+8,am,4,4,Science,T005
+8,am,4,5,Citizen,T012
+8,am,4,6,English,T004

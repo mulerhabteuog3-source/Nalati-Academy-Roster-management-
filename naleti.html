@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a4f8c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Naleti">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<title>Naleti Academy</title>
+<style>
+:root{--bg:#fbfaf6;--card:#fff;--ink:#1c2420;--mut:#5d6a63;--g:#1f4d3a;--g2:#e3efe8;--o:#d9a441;--r:#b5472f;--line:#dfe3dc;--ok:#2f7d57}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#121a16;--card:#1a2520;--ink:#eef2ee;--mut:#9bab9f;--g:#7cc4a0;--g2:#22362c;--line:#2d3d34;--r:#e08a74;--ok:#7cc4a0}}
+:root[data-theme=dark]{--bg:#121a16;--card:#1a2520;--ink:#eef2ee;--mut:#9bab9f;--g:#7cc4a0;--g2:#22362c;--line:#2d3d34;--r:#e08a74;--ok:#7cc4a0}
+*{box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans Ethiopic","Nyala","Abyssinica SIL",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:14px}
+h1,h2,h3{margin:0;font-family:Georgia,"Noto Sans Ethiopic",serif}
+h2{font-size:18px;margin-bottom:8px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:3px solid var(--o);padding-bottom:10px;margin-bottom:12px}
+header h1{font-size:21px;color:var(--g)}
+select,input,textarea,button{font:inherit;color:inherit}
+select,input,textarea{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:9px 10px;width:100%}
+textarea{min-height:70px}
+button{background:var(--g);color:var(--bg);border:0;border-radius:6px;padding:9px 14px;font-weight:700;cursor:pointer}
+button.ghost{background:none;color:var(--g);border:1px solid var(--g)}
+button.red{background:var(--r);color:#fff}
+button:disabled{opacity:.5}
+:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+nav{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px}
+nav button{background:var(--g2);color:var(--g);white-space:nowrap}
+nav button.on{background:var(--g);color:var(--bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.row>*{flex:1 1 120px}
+.row .fix,.fix{flex:0 0 auto}
+.li{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.li:last-child{border:0}
+.mut{color:var(--mut);font-size:14px}
+.pill{border-radius:99px;padding:2px 10px;font-size:13px;background:var(--g2);color:var(--g);white-space:nowrap}
+.pill.bad{background:#f6ddd6;color:#8a2f1c}
+.pill.ok{background:#d9efe2;color:#17563a}
+.st{min-width:96px}
+.sP{background:var(--ok);color:#fff}.sA{background:var(--r);color:#fff}.sL{background:var(--o);color:#1c2420}.s0{background:none;color:var(--mut);border:1px dashed var(--line)}
+.bar{height:10px;background:var(--g2);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--o)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+.ct th,.ct td{border:1px solid var(--line);padding:4px 6px;font-size:13px;text-align:left}
+.ct th{background:var(--g2);color:var(--ink)}
+.tt{table-layout:fixed}.tt th,.tt td{border:1px solid var(--line);padding:3px 1px;font-size:11px;text-align:center;vertical-align:top;overflow-wrap:anywhere}.tt th:first-child{width:50px}.tt td{height:46px}
+.tt th{background:var(--g2)}
+.tt td.off{background:repeating-linear-gradient(45deg,var(--g2),var(--g2) 4px,transparent 4px,transparent 8px)}
+.tt td.cl{background:#f6ddd6;color:#8a2f1c}
+.tt td[onclick]{cursor:pointer}
+.rc{border:1px solid var(--line);padding:12px;margin-bottom:10px}
+.rch{text-align:center;margin-bottom:8px}
+.sig{display:flex;justify-content:space-between;margin-top:34px;font-size:13px}
+.sig span{border-top:1px solid currentColor;padding-top:4px;min-width:28%;text-align:center}
+.warn{color:var(--r)}
+a{color:var(--g);font-weight:700}
+#print{display:none}
+@page{size:A4;margin:12mm}
+@media print{
+ body>.wrap{display:none}
+ #print{display:block}
+ body{background:#fff;color:#000}
+ #print *{color:#000!important;background:none!important}
+ .rc{border:0;page-break-after:always}
+ .ct th,.ct td{border:1px solid #444!important}
+ .tt th,.tt td{border:1px solid #444!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="print"></div>
+<script>
+"use strict";
+/* ---------- text ---------- */
+const T={
+en:{
+app:"Naleti Academy",login:"Sign in",out:"Sign out",user:"Username",pass:"Password",idl:"ID (admin, T001, N001)",pinl:"PIN",
+bad:"Wrong ID or password.",wait:"Too many attempts. Try again in 5 minutes.",blocked:"This account is blocked. Ask the admin.",net:"Cannot reach the school server.",
+denied:"Not allowed.",auth:"Session ended. Please sign in again.",stale:"Someone else changed this data. It was refreshed, please repeat your change.",error:"Something went wrong.",
+exists:"This account already exists.",nolink:"Choose a person first.",weak:"Use at least 8 characters with a letter and a number.",samepw:"New password must be different.",userpw:"Password cannot be the username.",bad2:"Current password is wrong.",
+stu:"Students",master:"Master",home:"Dashboard",upl:"Upload",staff:"Staff",att:"Attendance",satt:"Staff attendance",tt:"Timetable",mk:"Marks",card:"Report card",fee:"Fees",lib:"Library",hw:"Homework",rep:"Reports",news:"News",alert:"Alerts",usr:"Accounts",set:"Settings",
+admin:"Administrator",teacher:"Teacher",parent:"Parent",staffT:"Other staff",
+save:"Save",add:"Add",del:"Remove",edit:"Edit",cancel:"Cancel",none:"Nothing here yet.",saved:"Saved.",sure:"Are you sure?",req:"Please fill in the name or title.",range:"Marks must be between 0 and 100.",range2:"Enter an amount above 0.",
+name:"Full name",grade:"Grade",prog:"Program",am:"Amharic",om:"Afaan Oromoo",sex:"Sex",m:"Male",f:"Female",pn:"Parent name",phone:"Phone",disc:"Fee discount",stype:"Type",job:"Job title",subj:"Main subject",mySubj:"Your subjects",subjOnly:"You can only enter marks for your subject(s)",noSubj:"No subject assigned. Ask admin to set your Main subject on Staff.",
+present:"Present",absent:"Absent",late:"Late",markall:"Mark all present",date:"Date",rate:"Attendance rate",tapnote:"Tap a name to change: present, absent, late, blank.",
+subject:"Subject",term:"Semester",score:"Score",total:"Total",avg:"Average",rank:"Rank",grd:"Grade",result:"Result",pass:"Pass",fail:"Fail",passmark:"pass mark",conduct:"Conduct",remark:"Remark",rcT:"Student Report Card",sigT:"Teacher",sigD:"Director",sigP:"Parent",
+print:"Print",printall:"Print all cards",csv:"Download CSV",upload:"Upload CSV",upl:"Upload",tpl:"Download template",upBooks:"Upload books",booksCsv:"Books CSV",upPdf:"Upload PDF / Word book",bookFile:"Book file (PDF or Word)",openBook:"Open file",show:"Show",
+d0:"Mon",d1:"Tue",d2:"Wed",d3:"Thu",d4:"Fri",byclass:"By class",byteacher:"By teacher",period:"Period",frinote:"Friday: period 6 is 7:15-8:00, then clubs.",clash:"Clashes",noclash:"No clashes.",load:"Periods per week",free:"Free",clear:"Clear",tclash:"This teacher already teaches another class at that time. Save anyway?",
+due:"Due",paid:"Paid",bal:"Balance",receipt:"Receipt",newpay:"New payment",amount:"Amount",note:"Note",yfee:"Yearly fee by grade",allstu:"All students",open:"Open",back:"Back",
+booktitle:"Book title",author:"Author",copies:"Copies",avail:"available",lend:"Lend",ret:"Return",borrower:"Borrower",days:"Days",overdue:"Overdue",duedate:"Due",loans:"On loan",books:"Books",nocopy:"No copy available.",
+post:"Post",ntitle:"Write an announcement",
+rtype:"Report",rm:"Month",rd:"Date",rper:"Period",rday:"Daily",rweek:"Weekly",rmonth:"Monthly",roster:"Master roster",r_att:"Student attendance",r_satt:"Staff attendance",r_marks:"Marks sheet",r_fees:"Fee balances",r_stu:"Student list",r_roster:"Master roster (all students)",r_over:"Overdue books",allg:"All grades",allp:"All programs",
+school:"School name",year:"Academic year",terms:"Semesters (comma separated)",subjs:"Subjects (comma separated)",passm:"Pass mark",
+lang:"Language",theme:"Appearance",auto:"Auto",light:"Light",dark:"Dark",
+chpw:"Change password / PIN",old:"Current",new1:"New",new2:"Repeat new",mustpw:"Please set a new password to continue.",pwruleL:"PIN needs at least 4 characters (admin cannot keep 1234).",oldbad:"Current PIN is wrong.",
+backup:"Download backup",restore:"Restore from backup",restoreok:"Backup restored.",badfile:"This is not a Naleti backup file.",
+setpin:"Set PIN",pinset:"PIN set",nopin:"No PIN",pinall:"Make PINs for this class",pinlist:"PINs made in this session (write or print them now)",pinnote:"PIN",
+create:"Create account",acct:"Account",tmpnote:"Give this temporary password to the person. It is shown only once:",block:"Block",allow:"Allow",reset:"Reset password",blockedS:"blocked",
+storeBad:"This browser cannot save data here. Open the file in Chrome, and download a backup often.",hwTitle:"Homework title",hwDue:"Due date",hwSubj:"Subject",hwBody:"Instructions",hwAdd:"Add homework",hwNone:"No homework yet",hwFor:"For grade",alertSend:"Create alert",alertBody:"Message",alertTo:"Send to",alertAll:"All parents (class)",alertAbs:"Absent today note",alertFee:"Fee reminder",dashToday:"Today",dashStu:"Students",dashStaff:"Staff",dashAbs:"Absent today",dashLate:"Late today",dashFee:"Unpaid balances",dashHw:"Open homework",dashNews:"News",dob:"Birth date",addr:"Address",emg:"Emergency phone",detail:"Details",copyTg:"Copy for Telegram",alertOk:"Alert saved — copy and send on Telegram",geo:"School location",geoOn:"Require location for attendance",geoLat:"School latitude",geoLng:"School longitude",geoRad:"Radius (metres)",geoSet:"Use my current location as school",geoCheck:"Check my location",geoOk:"Inside school compound",geoOut:"Outside school compound — attendance blocked",geoNeed:"Location required. Stand inside the school compound and allow GPS.",geoNo:"Location not available. Enable GPS and use Chrome (https).",geoOff:"Location check is off (admin can enable in Settings)",geoAcc:"Accuracy",geoDist:"Distance from school",geoMock:"Fake GPS detected — attendance blocked. Use the official Naleti app without mock location.",geoNative:"Official app GPS",geoWeb:"Browser GPS",geoApkOnly:"For stronger anti-fake GPS, use the Naleti Android APK",geoWin:"Attendance time window",geoWinOn:"Only allow attendance in time window",geoWinFrom:"From (HH:MM)",geoWinTo:"To (HH:MM)",geoWinBlock:"Outside allowed attendance hours",
+modeL:"Data is stored on this phone only. Download a backup often.",modeS:"Connected to the school server.",bio:"Fingerprint / biometrics",bioOn:"Biometric unlock ON",bioOff:"Use fingerprint to unlock attendance",bioEnroll:"Register fingerprint on this phone",bioOk:"Fingerprint OK — attendance unlocked",bioFail:"Fingerprint failed or cancelled",bioNo:"Fingerprint needs Chrome + https (or localhost). Opening a file often blocks it.",bioNeed:"Optional: unlock with fingerprint, or mark attendance normally",bioNote:"Fingerprint works on Chrome with https. On a saved HTML file it often fails — use manual attendance, or host the app online.",bioFile:"You opened a local file. Fingerprint usually will not register. Use Chrome on a hosted link, or mark attendance by name.",bioErr:"Error: ",bioLock:"Lock attendance",stuBio:"Student fingerprint",stuBioReg:"Register student finger",stuBioOk:"Student fingerprint registered",stuBioHas:"Finger registered",stuBioNo:"No finger",stuBioMark:"Finger → Present",stuBioDel:"Remove finger",stuBioVerifyFail:"Fingerprint did not match this student",
+sa:"Staff",pt:"Parent portal"
+},
+am:{
+app:"ናለቲ አካዳሚ",login:"ግባ",out:"ውጣ",user:"የተጠቃሚ ስም",pass:"የይለፍ ቃል",pinl:"ሚስጥር ቁጥር",bad:"የተሳሳተ መታወቂያ ወይም የይለፍ ቃል።",
+stu:"ተማሪዎች",master:"ማስተር",home:"ዳሽቦርድ",upl:"ሰቀላ",staff:"ሠራተኞች",att:"ተገኝነት",satt:"የሠራተኞች ተገኝነት",tt:"የጊዜ ሰሌዳ",mk:"ውጤት",card:"የተማሪ ካርድ",fee:"ክፍያ",lib:"ቤተ መጻሕፍት",rep:"ሪፖርት",news:"ማስታወቂያ",usr:"መለያዎች",set:"ቅንብሮች",
+admin:"አስተዳዳሪ",teacher:"መምህር",parent:"ወላጅ",save:"አስቀምጥ",add:"አክል",del:"አስወግድ",edit:"አስተካክል",cancel:"ሰርዝ",none:"ምንም የለም።",saved:"ተቀምጧል።",
+name:"ሙሉ ስም",grade:"ክፍል",prog:"ፕሮግራም",am:"አማርኛ",om:"አፋን ኦሮሞ",sex:"ፆታ",m:"ወንድ",f:"ሴት",phone:"ስልክ",
+present:"ተገኝቷል",absent:"ቀርቷል",late:"አርፍዷል",markall:"ሁሉንም ተገኝቷል አድርግ",date:"ቀን",rate:"የተገኝነት መጠን",
+subject:"የትምህርት ዓይነት",term:"ሴሚስተር",total:"ድምር",avg:"አማካኝ",rank:"ደረጃ",result:"ውጤት",pass:"አልፏል",fail:"አላለፈም",conduct:"ጠባይ",remark:"አስተያየት",rcT:"የተማሪ ሪፖርት ካርድ",sigT:"መምህር",sigD:"ዳይሬክተር",sigP:"ወላጅ",
+print:"አትም",d0:"ሰኞ",d1:"ማክሰኞ",d2:"ረቡዕ",d3:"ሐሙስ",d4:"አርብ",period:"ክፍለ ጊዜ",
+due:"የሚከፈል",paid:"የተከፈለ",bal:"ቀሪ",receipt:"ደረሰኝ",amount:"መጠን",booktitle:"የመጽሐፍ ርዕስ",author:"ደራሲ",lend:"አውሰው",ret:"መልስ",post:"ለጥፍ",
+school:"የትምህርት ቤት ስም",year:"የትምህርት ዓመት",lang:"ቋንቋ",theme:"መልክ",chpw:"የይለፍ ቃል ቀይር",backup:"ባክአፕ አውርድ",restore:"ከባክአፕ መልስ",back:"ተመለስ"
+},
+om:{
+app:"Akaadaamii Naleetii",login:"Seeni",out:"Ba'i",user:"Maqaa fayyadamaa",pass:"Jecha darbii",pinl:"Lakkoofsa icciitii",bad:"ID ykn jechi darbii dogoggora.",
+stu:"Barattoota",master:"Maasterii",home:"Daashboordii",upl:"Olkaa'uu",staff:"Hojjattoota",att:"Argama",satt:"Argama hojjattootaa",tt:"Sagantaa",mk:"Qabxii",card:"Kaardii barataa",fee:"Kaffaltii",lib:"Mana kitaabaa",rep:"Gabaasa",news:"Beeksisa",usr:"Herregawwan",set:"Qindaa'ina",
+admin:"Bulchaa",teacher:"Barsiisaa",parent:"Maatii",save:"Olkaa'i",add:"Dabali",del:"Haqi",edit:"Gulaali",cancel:"Dhiisi",none:"Ammaaf homtuu hin jiru.",saved:"Olkaa'ameera.",
+name:"Maqaa guutuu",grade:"Kutaa",prog:"Sagantaa",am:"Amaariffaa",om:"Afaan Oromoo",sex:"Saala",m:"Dhiira",f:"Dubartii",phone:"Bilbila",
+present:"Jira",absent:"Hin jiru",late:"Turte",markall:"Hunda jira godhi",date:"Guyyaa",rate:"Hanga argamaa",
+subject:"Gosa barnoota",term:"Semistarii",total:"Waliigala",avg:"Giddugaleessa",rank:"Sadarkaa",result:"Bu'aa",pass:"Darbeera",fail:"Kufeera",conduct:"Amala",remark:"Yaada",rcT:"Kaardii Qabxii Barataa",sigT:"Barsiisaa",sigD:"Daayirektara",sigP:"Maatii",
+print:"Maxxansi",d0:"Wix",d1:"Kib",d2:"Rob",d3:"Kam",d4:"Jim",period:"Yeroo",
+due:"Kaffalamuu qabu",paid:"Kaffalame",bal:"Hafaa",receipt:"Ragaa kaffaltii",amount:"Hanga",booktitle:"Mataduree kitaabaa",author:"Barreessaa",lend:"Liqeessi",ret:"Deebisi",post:"Maxxansi",
+school:"Maqaa mana barnootaa",year:"Waggaa barnootaa",lang:"Afaan",theme:"Bifa",chpw:"Jecha darbii jijjiiri",backup:"Kuusaa buusi",restore:"Kuusaa irraa deebisi",back:"Deebi'i"
+}};
+let LG=(()=>{try{return localStorage.getItem("nl")}catch(_){return null}})()||"en";
+const t=k=>(T[LG]&&T[LG][k])||T.en[k]||k;
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+const e=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const val=id=>(($(id)||{}).value||"").trim();
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const day=()=>ymd(new Date());
+const addDays=(s,n)=>{const x=new Date(s+"T12:00:00");x.setDate(x.getDate()+n);return ymd(x)};
+const r1=x=>Math.round(x*10)/10;
+const rnd4=()=>String(1000+crypto.getRandomValues(new Uint32Array(1))[0]%9000);
+const byName=(a,b)=>a.name.localeCompare(b.name);
+function hh(id,p){const x="naleti|"+String(id).toLowerCase()+"|"+p;let a=0xdeadbeef,b=0x41c6ce57,c=0x9e3779b9,d=0x7f4a7c15;
+ for(let i=0;i<x.length;i++){const k=x.charCodeAt(i);a=Math.imul(a^k,2654435761);b=Math.imul(b^k,1597334677);c=Math.imul(c^k,2246822519);d=Math.imul(d^k,3266489917)}
+ a=Math.imul(a^a>>>16,2246822507)^Math.imul(b^b>>>13,3266489909);b=Math.imul(b^b>>>16,2246822507)^Math.imul(a^a>>>13,3266489909);
+ c=Math.imul(c^c>>>16,2246822507)^Math.imul(d^d>>>13,3266489909);d=Math.imul(d^d>>>16,2246822507)^Math.imul(c^c>>>13,3266489909);
+ return [a,b,c,d].map(v=>(v>>>0).toString(16).padStart(8,"0")).join("")}
+function mrg(a,b){for(const k in b){if(k==="__proto__"||k==="constructor"||k==="prototype")continue;
+ if(b[k]===null)delete a[k];else if(typeof b[k]==="object"&&!Array.isArray(b[k])){if(typeof a[k]!=="object"||a[k]===null)a[k]={};mrg(a[k],b[k])}else a[k]=b[k]}return a}
+const sel=(id,o,c,x)=>`<select id="${id}" ${x||""}>${o.map(([v,l])=>`<option value="${e(v)}"${String(v)===String(c)?" selected":""}>${e(l)}</option>`).join("")}</select>`;
+const GR=[1,2,3,4,5,6,7,8].map(i=>[i,i]);
+const PR=()=>[["am",t("am")],["om",t("om")]];
+const okpw=p=>p.length>=8&&/[A-Za-z]/.test(p)&&/\d/.test(p);
+
+/* ---------- data ---------- */
+const SUBJ0=["Amharic","Afaan Oromoo","English","Maths","Science","Social","HPE","ICT"];
+const EMPTY=()=>({cfg:{school:"Naleti Academy",year:"2019 E.C.",terms:["Semester 1","Semester 2"],subj:[...SUBJ0],pass:50,feeG:{},geoOn:false,geoLat:null,geoLng:null,geoRad:150,geoWinOn:false,geoWinFrom:"07:00",geoWinTo:"17:00",geoApkPrefer:false},stu:[],staff:[],att:{},tatt:{},mk:{},rem:{},tt:[],fee:[],lib:[],loan:[],news:[],bio:{},hw:[],alerts:[],attMeta:{}});
+const norm=d=>{const s=Object.assign(EMPTY(),d);s.cfg=Object.assign(EMPTY().cfg,s.cfg);if(!s.bio||typeof s.bio!=="object")s.bio={};if(!Array.isArray(s.hw))s.hw=[];if(!Array.isArray(s.alerts))s.alerts=[];return s};
+let S=EMPTY(),V={},MODE="local",TOK="",U=null,STORE_OK=true;
+try{TOK=localStorage.getItem("ntok")||""}catch(_){}
+let tab="",msg="",G=1,P="am",DATE="",TM=0,SJ=0,CS="",FS="",EDIT=null,TV="",TE=null,TVIEW="class",UR="teacher",RT="att",RMo="",RAP="month",RDate="",SVIEW="master",MQ="",MF=false,BIO_OK=false,GEO={ok:null,lat:null,lng:null,acc:null,dist:null,err:null},PINL=[],USERS=[],NEWACC=null,RSLT=null;
+DATE=day();RMo=day().slice(0,7);RDate=day();
+const subs=()=>S.cfg.subj&&S.cfg.subj.length?S.cfg.subj:SUBJ0;
+const msgH=()=>msg?`<p class="mut" role="status">${e(msg)}</p>`:"";
+
+function persist(){try{localStorage.setItem("naleti_db",JSON.stringify(S))}catch(x){STORE_OK=false}}
+function loadLocal(){
+ try{const r=localStorage.getItem("naleti_db");if(r)S=norm(JSON.parse(r));localStorage.setItem("naleti_t","1");localStorage.removeItem("naleti_t")}catch(x){STORE_OK=false}
+ if(!S.cfg.adminH){S.cfg.adminH=hh("admin","1234");S.cfg.adminDef=true;persist()}
+}
+async function api(m,u,b){
+ let r;try{r=await fetch("/api"+u,{method:m,headers:{"Content-Type":"application/json",...(TOK?{Authorization:"Bearer "+TOK}:{})},body:b===undefined?undefined:JSON.stringify(b)})}catch(x){throw "net"}
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw j.error||"error";return j;
+}
+async function bad(x){
+ if(x==="stale"){try{await loadState()}catch(_){}msg=t("stale")}
+ else if(x==="auth"){await logout(t("auth"));return}
+ else msg=t(x);
+ draw();
+}
+async function savec(k){if(MODE==="local"){persist();return}try{const r=await api("PUT","/doc/"+k,{data:S[k],v:V[k]||0});V[k]=r.v}catch(x){await bad(x)}}
+async function patch(k,f){mrg(S[k],f);if(MODE==="local"){persist();return}try{const r=await api("PUT","/doc/"+k,{patch:f});V[k]=r.v}catch(x){await bad(x)}}
+async function loadState(){const r=await api("GET","/state");S=norm(r.docs);V=r.v||{};U=r.user;S.rank=r.docs.rank;if(!tab||U.must)tab=U.must?"set":dflt()}
+const dflt=()=>U.role==="parent"?"home":(U.role==="teacher"||U.role==="staff"||U.role==="admin")?"home":"stu";
+async function loadUsers(){try{USERS=(await api("GET","/users")).users}catch(x){USERS=[]}}
+
+/* ---------- derived ---------- */
+const stuBy=(g,p)=>S.stu.filter(s=>s.grade===g&&s.prog===p).sort(byName);
+function attStat(a,id,pre){let p=0,ab=0,l=0;for(const d in a){if(pre&&!d.startsWith(pre))continue;const v=a[d][id];if(v==="P")p++;else if(v==="A")ab++;else if(v==="L")l++}const n=p+ab+l;return{P:p,A:ab,L:l,n,rate:n?Math.round((p+l)/n*100):null}}
+function ymdAdd(ymd,days){const d=new Date(ymd+"T12:00:00");d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
+function weekMon(ymd){const d=new Date(ymd+"T12:00:00"),wd=(d.getDay()+6)%7;d.setDate(d.getDate()-wd);return d.toISOString().slice(0,10)}
+function attRange(a,id,from,to){let p=0,ab=0,l=0,n=0;const days=[];for(let x=from;x<=to;x=ymdAdd(x,1)){const v=(a[x]||{})[id];days.push({d:x,v:v||""});if(v==="P"){p++;n++}else if(v==="A"){ab++;n++}else if(v==="L"){l++;n++}}return{P:p,A:ab,L:l,n,rate:n?Math.round((p+l)/n*100):null,days}}
+function statusLab(v){return v==="P"?t("present"):v==="A"?t("absent"):v==="L"?t("late"):"—"}
+function tm(sid,ti){const m=(S.mk[sid]||{})[ti]||{};let s=0,n=0;for(const j of subs()){const tot=mkTotal(m[j]);if(tot!=null){s+=tot;n++}}return{sum:s,n,avg:n?s/n:null}}
+function rankOf(sid,ti){
+ if(S.rank&&S.rank[ti])return S.rank[ti];
+ const st=S.stu.find(x=>x.id===sid);if(!st)return null;const me=tm(sid,ti).avg;if(me==null)return null;
+ const cls=S.stu.filter(x=>x.grade===st.grade&&x.prog===st.prog).map(x=>tm(x.id,ti).avg).filter(x=>x!=null);
+ return{r:1+cls.filter(x=>x>me+1e-9).length,n:cls.length};
+}
+const gl=v=>v>=90?"A":v>=80?"B":v>=70?"C":v>=60?"D":v>=50?"E":"F";
+const dueOf=s=>Math.max(0,((S.cfg.feeG||{})[s.grade]||0)-(s.disc||0));
+const paidOf=id=>S.fee.filter(f=>f.sid===id).reduce((a,f)=>a+f.amt,0);
+const stuName=id=>(S.stu.find(x=>x.id===id)||{name:id}).name;
+const teachers=()=>S.staff.filter(x=>x.type==="teacher").sort(byName);
+function teacherSubs(){
+ if(!U||U.role==="admin")return subs().slice();
+ if(U.role!=="teacher")return [];
+ const me=S.staff.find(x=>x.id===U.id);
+ if(!me||!me.subj)return [];
+ const all=subs();
+ // match comma-separated subject names (case-insensitive, partial ok)
+ return me.subj.split(/[,;/|]+/).map(s=>s.trim()).filter(Boolean).map(s=>{
+  const hit=all.find(x=>x.toLowerCase()===s.toLowerCase())||all.find(x=>x.toLowerCase().includes(s.toLowerCase())||s.toLowerCase().includes(x.toLowerCase()));
+  return hit||s;
+ }).filter((v,i,a)=>a.indexOf(v)===i);
+}
+function canEditSubj(sub){
+ if(!U)return false;
+ if(U.role==="admin")return true;
+ if(U.role!=="teacher")return false;
+ const ts=teacherSubs();
+ if(!ts.length)return false;
+ return ts.some(x=>x.toLowerCase()===String(sub).toLowerCase());
+}
+
+
+/* ---------- shell ---------- */
+const TABS={admin:["home","master","stu","upl","staff","att","satt","tt","mk","card","fee","lib","hw","rep","news","alert","usr","set"],teacher:["home","master","att","mk","card","tt","lib","hw","news","alert","set"],staff:["home","master","att","satt","tt","news","set"],parent:["home","card","att","fee","tt","lib","hw","news","set"]};
+const SC={home:homeS,stu:stuS,master:masterS,upl:uplS,staff:staffS,att:()=>attS("att"),satt:()=>attS("tatt"),tt:ttS,mk:mkS,card:cardS,fee:feeS,lib:libS,hw:hwS,rep:repS,news:newsS,alert:alertS,usr:usrS,set:setS};
+function setLang(v){LG=v;try{localStorage.setItem("nl",v)}catch(_){}draw()}
+function setTheme(v){try{localStorage.setItem("nth",v)}catch(_){}if(v)document.documentElement.dataset.theme=v;else delete document.documentElement.dataset.theme}
+try{setTheme(localStorage.getItem("nth")||"")}catch(_){}
+async function go(k){msg="";EDIT=null;TE=null;NEWACC=null;RSLT=null;tab=k;if(k==="usr"&&MODE==="server")await loadUsers();draw()}
+function draw(){
+ document.documentElement.lang=LG;
+ const lang=`<select aria-label="${t("lang")}" onchange="setLang(this.value)" style="width:auto"><option value="en"${LG==="en"?" selected":""}>English</option><option value="am"${LG==="am"?" selected":""}>አማርኛ</option><option value="om"${LG==="om"?" selected":""}>Oromoo</option></select>`;
+ let h=`<header><h1>${e(S.cfg.school||t("app"))}</h1><div class="row" style="margin:0;flex-wrap:nowrap">${lang}${U?`<button class="ghost fix" onclick="logout()">${t("out")}</button>`:""}</div></header>`;
+ if(MODE==="local"&&!STORE_OK)h+=`<p class="warn" role="alert">${t("storeBad")}</p>`;
+ if(!U)h+=loginS();
+ else if(U.must)h+=pwS();
+ else h+=`<nav>${TABS[U.role].map(k=>`<button class="${k===tab?"on":""}" onclick="go('${k}')">${t(k)}</button>`).join("")}</nav>`+(SC[tab]||SC[dflt()])();
+ $("app").innerHTML=h;
+}
+function printHTML(h){$("print").innerHTML=h;window.print()}
+addEventListener("afterprint",()=>{$("print").innerHTML=""});
+
+/* ---------- login ---------- */
+let FAILS=0,LOCK=0;
+function loginS(){
+ return `<div class="card"><div class="row"><input id="lu" autocapitalize="none" autocomplete="username" placeholder="${MODE==="server"?t("user"):t("idl")}" aria-label="${t("user")}"></div>
+ <div class="row"><input id="pw" type="password" autocomplete="current-password" placeholder="${MODE==="server"?t("pass"):t("pinl")}" aria-label="${t("pass")}"></div>
+ <button onclick="login()">${t("login")}</button>${msg?`<p class="warn" role="alert">${e(msg)}</p>`:""}
+ <p class="mut">${MODE==="server"?t("modeS"):t("modeL")}</p></div>`;
+}
+async function login(){
+ const id=val("lu").toLowerCase(),pw=$("pw").value;msg="";
+ if(MODE==="server"){
+  try{const r=await api("POST","/login",{id,pw});TOK=r.token;try{localStorage.setItem("ntok",TOK)}catch(_){}await loadState()}catch(x){msg=t(x)}
+  return draw();
+ }
+ if(Date.now()<LOCK){msg=t("wait");return draw()}
+ let u=null;
+ if(id==="admin"){if(S.cfg.adminH===hh("admin",pw))u={id:"admin",role:"admin",name:t("admin"),must:!!S.cfg.adminDef}}
+ else{
+  const sc=S.staff.find(x=>x.id.toLowerCase()===id&&x.ph),st=S.stu.find(x=>x.id.toLowerCase()===id&&x.ph);
+  if(sc&&sc.ph===hh(sc.id,pw))u={id:sc.id,role:sc.type==="teacher"?"teacher":"staff",name:sc.name,link:sc.id};
+  else if(st&&st.ph===hh(st.id,pw))u={id:st.id,role:"parent",name:st.pn||st.name,link:st.id};
+ }
+ if(!u){FAILS++;if(FAILS>=5){LOCK=Date.now()+300000;FAILS=0;msg=t("wait")}else msg=t("bad")}
+ else{FAILS=0;U=u;tab=u.must?"set":dflt()}
+ draw();
+}
+async function logout(m){
+ if(MODE==="server"){try{await api("POST","/logout")}catch(x){}TOK="";try{localStorage.removeItem("ntok")}catch(_){}S=norm({cfg:{school:S.cfg.school}})}
+ U=null;tab="";msg=m||"";PINL=[];draw();
+}
+function pwS(){
+ return `<div class="card">${U.must?`<p class="mut">${t("mustpw")}</p>`:""}<h2>${t("chpw")}</h2>
+ <div class="row"><input id="p0" type="password" placeholder="${t("old")}" aria-label="${t("old")}"><input id="p1" type="password" placeholder="${t("new1")}" aria-label="${t("new1")}"><input id="p2" type="password" placeholder="${t("new2")}" aria-label="${t("new2")}"></div>
+ <button onclick="chPw()">${t("save")}</button>${msgH()}</div>`;
+}
+async function chPw(){
+ const o=$("p0").value,n=$("p1").value;
+ if(n!==$("p2").value){msg=MODE==="server"?t("weak"):t("pwruleL");return draw()}
+ if(MODE==="server"){
+  if(!okpw(n)){msg=t("weak");return draw()}
+  try{await api("POST","/pw",{old:o,new:n});const was=U.must;U.must=0;msg=t("saved");if(was)tab=dflt()}catch(x){msg=t(x==="bad"?"bad2":x)}
+  return draw();
+ }
+ if(n.length<4||/\s/.test(n)||(U.id==="admin"&&n==="1234")){msg=t("pwruleL");return draw()}
+ const rec=U.id==="admin"?null:(U.role==="teacher"?S.staff:S.stu).find(x=>x.id===U.id);
+ const cur=U.id==="admin"?S.cfg.adminH:rec&&rec.ph;
+ if(cur!==hh(U.id,o)){msg=t("oldbad");return draw()}
+ if(U.id==="admin"){S.cfg.adminH=hh("admin",n);S.cfg.adminDef=false}else rec.ph=hh(U.id,n);
+ const was=U.must;persist();U.must=false;msg=t("saved");if(was)tab=dflt();draw();
+}
+
+/* ---------- generic add/edit ---------- */
+const FM={
+ stu:{f:[["name","name"],["grade","grade","g"],["prog","prog","p"],["sex","sex","x"],["dob","dob"],["addr","addr"],["pn","pn"],["pp","phone"],["emg","emg"],["disc","disc","n"]],need:"name"},
+ staff:{f:[["name","name"],["type","stype","y"],["job","job"],["subj","subj"],["pp","phone"]],need:"name"},
+ lib:{f:[["title","booktitle"],["author","author"],["copies","copies","n"]],need:"title"}
+};
+function fin(f,v){
+ const[k,l,ty]=f,id="f_"+k,x=v?v[k]:undefined,a=`aria-label="${t(l)}"`;
+ if(ty==="g")return sel(id,GR,x!=null?x:G,a);
+ if(ty==="p")return sel(id,PR(),x||P,a);
+ if(ty==="x")return sel(id,[["M",t("m")],["F",t("f")]],x||"M",a);
+ if(ty==="y")return sel(id,[["teacher",t("teacher")],["staff",t("staffT")]],x||"teacher",a);
+ if(ty==="n")return `<input id="${id}" ${a} type="number" inputmode="numeric" min="0" value="${e(x!=null?x:(k==="copies"?1:""))}" placeholder="${t(l)}">`;
+ return `<input id="${id}" ${a} value="${e(x!=null?x:"")}" placeholder="${t(l)}">`;
+}
+function crud(k,can){
+ if(!can)return"";
+ if(EDIT&&EDIT.k===k){
+  const v=EDIT.id?S[k].find(x=>x.id===EDIT.id):null;
+  return `<div class="card"><h2>${t(EDIT.id?"edit":"add")}</h2><div class="row">${FM[k].f.map(f=>fin(f,v)).join("")}</div>
+  <div class="row"><button onclick="saveF('${k}')">${t("save")}</button><button class="ghost" onclick="EDIT=null;msg='';draw()">${t("cancel")}</button></div>${msgH()}</div>`;
+ }
+ return `<div class="card"><button onclick="EDIT={k:'${k}',id:null};msg='';draw()">+ ${t("add")}</button>${msgH()}</div>`;
+}
+const rb=(k,id)=>`<div class="fix"><button class="ghost" onclick="EDIT={k:'${k}',id:'${e(id)}'};msg='';draw();scrollTo(0,0)">${t("edit")}</button> <button class="ghost" onclick="delF('${k}','${e(id)}')">${t("del")}</button></div>`;
+const nextId=(arr,pre)=>pre+String(arr.reduce((m,x)=>Math.max(m,+String(x.id).slice(1)||0),0)+1).padStart(3,"0");
+async function saveF(k){
+ const F=FM[k],o={};
+ F.f.forEach(([n,l,ty])=>{const v=val("f_"+n);o[n]=ty==="n"?Math.max(0,+v||0):ty==="g"?+v:v});
+ if(!o[F.need]){msg=t("req");return draw()}
+ const old=EDIT.id?S[k].find(x=>x.id===EDIT.id):null;msg="";
+ if(old)Object.assign(old,o);
+ else{
+  o.id=nextId(S[k],k==="stu"?"N":k==="lib"?"B":o.type==="teacher"?"T":"E");
+  if(k==="lib")o.copies=o.copies||1;
+  if(MODE==="local"&&(k==="stu"||o.type==="teacher")){const pin=rnd4();o.ph=hh(o.id,pin);PINL.push([o.id,o.name,pin]);msg=`${o.id}: ${t("pinnote")} ${pin}`}
+  S[k].push(o);
+ }
+ EDIT=null;await savec(k);draw();
+}
+async function delF(k,id){
+ if(!confirm(t("sure")))return;
+ S[k]=S[k].filter(x=>x.id!==id);
+ if(k==="stu"){await patch("mk",{[id]:null});await patch("rem",{[id]:null})}
+ if(k==="staff"){S.tt=S.tt.filter(x=>x.tid!==id);await savec("tt")}
+ await savec(k);draw();
+}
+
+
+function parseCSV(text){return String(text||"").replace(/^\ufeff/,"").split(/\r?\n/).map(l=>l.trim()).filter(Boolean).slice(1).map(l=>{const out=[];let cur="",q=false;for(let i=0;i<l.length;i++){const c=l[i];if(c==='"'){if(q&&l[i+1]==='"'){cur+='"';i++}else q=!q}else if(c===","&&!q){out.push(cur.trim());cur=""}else cur+=c}out.push(cur.trim());return out})}
+const csvBtn=(lab,fn)=>`<label class="ghost" style="display:inline-block;border:1px solid var(--g);border-radius:6px;padding:9px 14px;font-weight:700;color:var(--g);cursor:pointer">${lab}<input type="file" accept=".csv,text/csv" style="display:none" onchange="${fn}(this)"></label>`;
+function readCsvFile(inp,cb){const f=inp&&inp.files&&inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{cb(parseCSV(r.result))}catch(x){msg=t("badfile");draw()}};r.onerror=()=>{msg=t("badfile");draw()};r.readAsText(f)}
+async function uploadStu(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ let n=0;
+ rows.forEach(p=>{
+  const name=p[0]||p[1];if(!name)return;
+  // Name,Grade,Program,Sex,ParentName,Phone,Discount  OR ID,Name,...
+  let o;
+  if(p[0]&&/^N\d+/i.test(p[0])&&p[1]){o={id:p[0],name:p[1],grade:+p[2]||1,prog:(p[3]||"am").toLowerCase().slice(0,2),sex:(p[4]||"M")[0].toUpperCase(),pn:p[5]||"",pp:p[6]||"",disc:+p[7]||0}}
+  else{o={name:p[0],grade:+p[1]||1,prog:(p[2]||"am").toLowerCase().slice(0,2),sex:(p[3]||"M")[0].toUpperCase(),pn:p[4]||"",pp:p[5]||"",disc:+p[6]||0};o.id=nextId(S.stu,"N")}
+  if(!["am","om"].includes(o.prog))o.prog="am";
+  const ex=S.stu.find(x=>x.id===o.id);
+  if(ex)Object.assign(ex,o);else S.stu.push(o);n++;
+ });
+ await savec("stu");msg=t("saved")+" ("+n+")";draw();
+})}
+async function uploadStaff(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ let n=0;
+ rows.forEach(p=>{
+  // ID?,Name,Type,Job,Subject,Phone
+  let o;
+  if(p[0]&&/^[TE]\d+/i.test(p[0])&&p[1]){o={id:p[0],name:p[1],type:(p[2]||"teacher").toLowerCase().includes("staff")?"staff":"teacher",job:p[3]||"",subj:p[4]||"",pp:p[5]||""}}
+  else if(p[0]){o={name:p[0],type:(p[1]||"teacher").toLowerCase().includes("staff")?"staff":"teacher",job:p[2]||"",subj:p[3]||"",pp:p[4]||""};o.id=nextId(S.staff,o.type==="teacher"?"T":"E")}
+  else return;
+  const ex=S.staff.find(x=>x.id===o.id);
+  if(ex)Object.assign(ex,o);else S.staff.push(o);n++;
+ });
+ await savec("staff");msg=t("saved")+" ("+n+")";draw();
+})}
+async function uploadTT(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ // Grade,Program,Day,Period,Subject,TeacherID
+ const out=[];
+ rows.forEach(p=>{
+  if(p.length<5)return;
+  const g=+p[0]||1,pr=(p[1]||"am").toLowerCase().slice(0,2),d=+p[2],s=+p[3],subj=p[4],tid=p[5]||"";
+  if(!(d>=0&&d<=4)||!(s>=0&&s<=6)||!subj)return;
+  out.push({g,p:pr,d,s,subj,tid});
+ });
+ if(!out.length){msg=t("badfile");return draw()}
+ S.tt=out;await savec("tt");msg=t("saved")+" ("+out.length+")";draw();
+})}
+async function uploadAtt(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ // Date,StudentID,Status (P/A/L)
+ let n=0;
+ rows.forEach(p=>{
+  const dt=p[0],sid=p[1],st=(p[2]||"P").toUpperCase()[0];
+  if(!dt||!sid||!["P","A","L"].includes(st))return;
+  if(!S.att[dt])S.att[dt]={};
+  S.att[dt][sid]=st;n++;
+ });
+ await savec("att");msg=t("saved")+" ("+n+")";draw();
+})}
+async function uploadFee(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ let n=0;
+ rows.forEach(p=>{
+  // StudentID,Amount,Date,Note
+  const sid=p[0],amt=+p[1],dt=p[2]||day(),note=p[3]||"";
+  if(!sid||!(amt>0))return;
+  if(!S.stu.find(x=>x.id===sid))return;
+  S.fee.push({id:"F"+Date.now().toString(36)+n,sid,amt,date:dt,note,no:"R"+String(S.fee.length+1).padStart(4,"0")});n++;
+ });
+ await savec("fee");msg=t("saved")+" ("+n+")";draw();
+})}
+
+async function uploadBookFile(inp){
+ const f=inp&&inp.files&&inp.files[0];if(!f)return;
+ const title=(val("btitle")||f.name.replace(/\.[^.]+$/,"")).trim();
+ const author=val("bauthor")||"";
+ const copies=Math.max(1,+val("bcopies")||1);
+ const ext=(f.name.split(".").pop()||"").toLowerCase();
+ if(!["pdf","doc","docx"].includes(ext)){msg="Use PDF or Word (.pdf, .doc, .docx)";return draw()}
+ if(f.size>8*1024*1024){msg="File too large (max 8 MB)";return draw()}
+ if(!title){msg=t("req");return draw()}
+ msg="Uploading…";draw();
+ try{
+  const data=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const s=String(r.result||"");const i=s.indexOf(",");res(i>=0?s.slice(i+1):s)};r.onerror=rej;r.readAsDataURL(f)});
+  if(MODE==="server"){
+   await api("POST","/books",{title,author,copies,filename:f.name,mime:f.type||"",data});
+   await loadState();
+  }else{
+   // local: metadata only + note (file not stored offline)
+   S.lib.push({id:nextId(S.lib,"B"),title,author,copies,filename:f.name,mime:f.type||"",file:""});
+   await savec("lib");
+   msg=t("saved")+" (file name saved; open PDF online on https server)";draw();return;
+  }
+  msg=t("saved")+": "+title;draw();
+ }catch(x){msg=t("badfile")+(x?": "+x:"");draw()}
+}
+async function uploadLib(inp){readCsvFile(inp,async rows=>{
+ if(!rows.length){msg=t("badfile");return draw()}
+ if(!confirm(t("sure")+" ("+rows.length+")"))return;
+ let n=0,u=0;
+ rows.forEach(p=>{
+  // Title,Author,Copies  OR  ID,Title,Author,Copies
+  let title,author,copies,id=null;
+  if(p[0]&&/^B\d+/i.test(p[0])&&p[1]){id=p[0];title=p[1];author=p[2]||"";copies=+p[3]||1}
+  else{title=p[0];author=p[1]||"";copies=+p[2]||1}
+  if(!title)return;
+  copies=Math.max(1,copies||1);
+  const ex=id?S.lib.find(x=>x.id===id):S.lib.find(x=>x.title.toLowerCase()===title.toLowerCase());
+  if(ex){ex.title=title;ex.author=author;ex.copies=copies;if(id)ex.id=id;u++}
+  else{S.lib.push({id:id||nextId(S.lib,"B"),title,author,copies});n++}
+ });
+ await savec("lib");msg=t("saved")+" (+"+n+(u?", update "+u:"")+")";draw();
+})}
+function dlTpl(kind){
+ const T={
+  stu:"Name,Grade,Program,Sex,ParentName,Phone,Discount\nAbebe Kebede,1,am,M,Parent Name,0910000000,0\n",
+  staff:"Name,Type,Job,Subject,Phone\nTeacher Name,teacher,,Maths,0910000000\n",
+  tt:"Grade,Program,Day,Period,Subject,TeacherID\n1,am,0,0,Maths,T001\n",
+  att:"Date,StudentID,Status\n"+day()+",N001,P\n",
+  mk:"StudentID,Name,Subject,Mid,Final,Activity,Worksheet,Exercise,Neat\nN001,Abebe,Maths,15,32,8,9,7,10\n",
+  fee:"StudentID,Amount,Date,Note\nN001,500,"+day()+",Term fee\n",
+  lib:"Title,Author,Copies\nAmharic Reader,Naleti Press,5\nAfaan Oromoo Stories,Naleti Press,5\nMaths Workbook G1,Education Bureau,10\nEnglish Story Book,Oxford,4\nScience Facts,Naleti Press,6\n"
+ };
+ dl("naleti-"+kind+"-template.csv","\ufeff"+(T[kind]||""),"text/csv");
+}
+function uplS(){
+ if(U.role!=="admin")return `<div class="card">${t("none")}</div>`;
+ const row=(title,kind,upFn)=>`<div class="li"><div><b>${title}</b><div class="mut">CSV</div></div><div class="form"><button class="ghost" onclick="dlTpl('${kind}')">${t("tpl")}</button> ${csvBtn(t("upload"),upFn)}</div></div>`;
+ return `<div class="card"><h2>${t("upl")}</h2>
+ <p class="mut">Download a template, fill in Excel, then upload. UTF-8 CSV.</p>
+ ${row(t("stu"),"stu","uploadStu")}
+ ${row(t("staff"),"staff","uploadStaff")}
+ ${row(t("tt"),"tt","uploadTT")}
+ ${row(t("att"),"att","uploadAtt")}
+ ${row(t("mk"),"mk","uploadMk")}
+ ${row(t("fee"),"fee","uploadFee")}
+ ${row(t("lib"),"lib","uploadLib")}
+ ${msgH()}</div>`;
+}
+
+/* ---------- students & staff ---------- */
+const filt=()=>`<div class="row">${sel("fg",GR,G,`onchange="G=+this.value;draw()" aria-label="${t("grade")}"`)}${sel("fp",PR(),P,`onchange="P=this.value;draw()" aria-label="${t("prog")}"`)}</div>`;
+function stuS(){
+ const adm=U.role==="admin";
+ const all=S.stu.slice().sort((a,b)=>a.grade-b.grade||String(a.prog).localeCompare(String(b.prog))||byName(a,b));
+ const L=SVIEW==="class"?stuBy(G,P):all;
+ const viewSel=sel("svw",[["master",t("roster")],["class",t("grade")+" / "+t("prog")]],SVIEW,`onchange="SVIEW=this.value;draw()" aria-label="${t("roster")}"`);
+ let table=`<div class="tbl"><table class="ct"><tr><th>#</th><th>ID</th><th>${t("name")}</th><th>${t("grade")}</th><th>${t("prog")}</th><th>${t("sex")}</th><th>${t("pn")}</th><th>${t("phone")}</th>${adm?"<th></th>":""}</tr>`;
+ L.forEach((s,i)=>{
+  table+=`<tr><td>${i+1}</td><td>${e(s.id)}</td><td><b>${e(s.name)}</b></td><td>${s.grade}</td><td>${t(s.prog)}</td><td>${e(s.sex||"")}</td><td>${e(s.pn||"")}</td><td>${e(s.pp||"")}</td>${adm?`<td>${rb("stu",s.id)}</td>`:""}</tr>`;
+ });
+ table+=`</table></div>`;
+ return crud("stu",adm)+
+ `<div class="card"><div class="row">${viewSel}${SVIEW==="class"?filt():""}</div>
+ <p class="mut"><b>${t("roster")}</b> — ${L.length} ${t("stu").toLowerCase?t("stu").toLowerCase():t("stu")}</p>
+ ${L.length?table:t("none")}
+ <div class="row"><button class="ghost" onclick="printRoster()">${t("print")}</button>
+ <button class="ghost" onclick="csvRoster()">${t("csv")}</button></div>${msgH()}</div>`;
+}
+function printRoster(){
+ const L=(tab==="master"||SVIEW!=="class")?S.stu.slice().sort((a,b)=>a.grade-b.grade||String(a.prog).localeCompare(String(b.prog))||byName(a,b)):stuBy(G,P);
+ let h=`<h2>${e(S.cfg.school)}</h2><h3>${t("roster")}</h3><table class="ct"><tr><th>#</th><th>ID</th><th>${t("name")}</th><th>${t("grade")}</th><th>${t("prog")}</th><th>${t("sex")}</th><th>${t("pn")}</th><th>${t("phone")}</th></tr>`;
+ L.forEach((s,i)=>{h+=`<tr><td>${i+1}</td><td>${e(s.id)}</td><td>${e(s.name)}</td><td>${s.grade}</td><td>${t(s.prog)}</td><td>${e(s.sex||"")}</td><td>${e(s.pn||"")}</td><td>${e(s.pp||"")}</td></tr>`});
+ h+=`</table>`;printHTML(h);
+}
+function csvRoster(){
+ const L=(tab==="master"||SVIEW!=="class")?S.stu.slice().sort((a,b)=>a.grade-b.grade||String(a.prog).localeCompare(String(b.prog))||byName(a,b)):stuBy(G,P);
+ const h=["#","ID",t("name"),t("grade"),t("prog"),t("sex"),t("pn"),t("phone")];
+ const rows=L.map((s,i)=>[i+1,s.id,s.name,s.grade,s.prog,s.sex||"",s.pn||"",s.pp||""]);
+ const q=c=>'"'+String(c).replace(/"/g,'""')+'"';
+ dl("naleti-master-roster-"+day()+".csv","\ufeff"+[h,...rows].map(r=>r.map(q).join(",")).join("\r\n"),"text/csv");
+}
+
+function masterS(){
+ const adm=U.role==="admin"||U.role==="teacher"||U.role==="staff";
+ let L=S.stu.slice().sort((a,b)=>a.grade-b.grade||String(a.prog).localeCompare(String(b.prog))||byName(a,b));
+ if(MQ){const q=MQ.toLowerCase();L=L.filter(s=>[s.id,s.name,s.pn||"",s.pp||"",String(s.grade),s.prog].join(" ").toLowerCase().includes(q))}
+ if(MF)L=L.filter(s=>s.grade===G&&s.prog===P);
+ let table="<div class=\"tbl\"><table class=\"ct\"><tr><th>#</th><th>ID</th><th>"+t("name")+"</th><th>"+t("grade")+"</th><th>"+t("prog")+"</th><th>"+t("sex")+"</th><th>"+t("pn")+"</th><th>"+t("phone")+"</th></tr>";
+ L.forEach((s,i)=>{const has=!!stuBioId(s.id);table+="<tr><td>"+(i+1)+"</td><td>"+e(s.id)+"</td><td><b>"+e(s.name)+"</b></td><td>"+s.grade+"</td><td>"+t(s.prog)+"</td><td>"+e(s.sex||"")+"</td><td>"+e(s.pn||"")+"</td><td>"+e(s.pp||"")+"</td><td>"+(has?t("stuBioHas"):t("stuBioNo"))+" <button class=\"ghost\" onclick=\"bioEnrollStudent('"+e(s.id)+"')\">"+t("stuBioReg")+"</button>"+(has?" <button class=\"ghost\" onclick=\"bioDelStudent('"+e(s.id)+"')\">"+t("stuBioDel")+"</button>":"")+"</td></tr>"});
+ table+="</table></div>";
+ return "<div class=\"card\"><h2>"+t("roster")+"</h2>"+
+ "<p class=\"mut\">"+e(S.cfg.school)+" · "+e(S.cfg.year)+" · <b>"+L.length+"</b></p>"+
+ "<div class=\"row\"><input id=\"mq\" placeholder=\"Search...\" value=\""+e(MQ)+"\" oninput=\"MQ=this.value;draw()\" style=\"flex:1;min-width:140px\">"+
+ "<button class=\"ghost\" onclick=\"MF=!MF;draw()\">"+(MF?t("grade")+" filter":t("allg"))+"</button></div>"+
+ (MF?filt():"")+
+ (L.length?table:"<p>"+t("none")+"</p>")+
+ "<div class=\"row\"><button onclick=\"printRoster()\">"+t("print")+"</button> "+
+ "<button class=\"ghost\" onclick=\"csvRoster()\">"+t("csv")+"</button></div>"+msgH()+"</div>";
+}
+function staffS(){
+ const L=S.staff.slice().sort(byName);
+ return crud("staff",true)+`<div class="card"><div class="row"><button class="ghost" onclick="dlTpl('staff')">${t("tpl")}</button> ${csvBtn(t("upload"),"uploadStaff")}</div></div><div class="card">${L.map(s=>`<div class="li"><div>${e(s.name)}<div class="mut">${e(s.id)} · ${t(s.type==="teacher"?"teacher":"staffT")}${s.job?" · "+e(s.job):""}${s.subj?" · "+e(s.subj):""}${s.pp?" · "+e(s.pp):""}</div></div>${rb("staff",s.id)}</div>`).join("")||t("none")}</div>`;
+}
+
+
+/* ---------- biometrics (WebAuthn – device fingerprint) ---------- */
+function bioSupported(){try{return !!(window.PublicKeyCredential&&navigator.credentials&&window.isSecureContext)}catch(_){return false}}
+function bioIsFile(){return location.protocol==="file:"}
+function b64url(buf){const u=new Uint8Array(buf);let s="";for(let i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function fromB64url(s){s=s.replace(/-/g,"+").replace(/_/g,"/");const pad="=".repeat((4-s.length%4)%4);const bin=atob(s+pad);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u.buffer}
+function bioKey(){return "naleti-bio-"+(U&&U.id?U.id:"x")}
+function bioRp(){const o={name:"Naleti Academy"};const h=location.hostname;if(h&&h!=="localhost"&&location.protocol!=="file:")o.id=h;return o}
+function bioErrMsg(err){const m=(err&&(err.message||err.name))||"";return t("bioFail")+(m?" — "+m:"")}
+async function bioEnroll(){
+ if(bioIsFile()){msg=t("bioFile");return draw()}
+ if(!bioSupported()){msg=t("bioNo");return draw()}
+ try{
+  const chal=crypto.getRandomValues(new Uint8Array(32));
+  const userId=new TextEncoder().encode(String(U.id));
+  const cred=await navigator.credentials.create({publicKey:{
+   challenge:chal,rp:bioRp(),
+   user:{id:userId,name:String(U.id),displayName:String(U.name||U.id)},
+   pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+   authenticatorSelection:{userVerification:"required"},
+   timeout:90000
+  }});
+  if(!cred){msg=t("bioFail");return draw()}
+  try{localStorage.setItem(bioKey(),b64url(cred.rawId))}catch(_){}
+  BIO_OK=true;msg=t("bioOk");draw();
+ }catch(err){msg=bioErrMsg(err);draw()}
+}
+async function bioUnlock(){
+ if(bioIsFile()){msg=t("bioFile");return draw()}
+ if(!bioSupported()){msg=t("bioNo");return draw()}
+ const raw=(()=>{try{return localStorage.getItem(bioKey())}catch(_){return null}})();
+ if(!raw){return bioEnroll()}
+ try{
+  const chal=crypto.getRandomValues(new Uint8Array(32));
+  const opt={challenge:chal,timeout:90000,userVerification:"required",allowCredentials:[{type:"public-key",id:fromB64url(raw)}]};
+  const cred=await navigator.credentials.get({publicKey:opt});
+  if(!cred){msg=t("bioFail");return draw()}
+  BIO_OK=true;msg=t("bioOk");draw();
+ }catch(err){msg=bioErrMsg(err);draw()}
+}
+function bioLock(){BIO_OK=false;msg="";draw()}
+function stuBioId(sid){return (S.bio&&S.bio[sid])||null}
+async function bioEnrollStudent(sid){
+ if(bioIsFile()){msg=t("bioFile");return draw()}
+ if(!bioSupported()){msg=t("bioNo");return draw()}
+ const st=S.stu.find(x=>x.id===sid);if(!st){msg=t("none");return draw()}
+ try{
+  const chal=crypto.getRandomValues(new Uint8Array(32));
+  const userId=new TextEncoder().encode("stu-"+sid+"-"+Date.now());
+  const cred=await navigator.credentials.create({publicKey:{
+   challenge:chal,rp:bioRp(),
+   user:{id:userId,name:sid,displayName:String(st.name||sid)},
+   pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+   authenticatorSelection:{userVerification:"required"},
+   timeout:90000
+  }});
+  if(!cred){msg=t("bioFail");return draw()}
+  if(!S.bio)S.bio={};
+  S.bio[sid]=b64url(cred.rawId);
+  await savec("bio");
+  msg=t("stuBioOk")+": "+st.name;draw();
+ }catch(err){msg=bioErrMsg(err);draw()}
+}
+async function bioDelStudent(sid){
+ if(!confirm(t("sure")))return;
+ if(S.bio)delete S.bio[sid];
+ await savec("bio");msg=t("saved");draw();
+}
+async function bioMarkStudent(sid){
+ if(!(await geoRequire()))return;
+ if(bioIsFile()){msg=t("bioFile");return draw()}
+ if(!bioSupported()){msg=t("bioNo");return draw()}
+ const raw=stuBioId(sid);
+ if(!raw){msg=t("stuBioNo");return draw()}
+ try{
+  const chal=crypto.getRandomValues(new Uint8Array(32));
+  const cred=await navigator.credentials.get({publicKey:{
+   challenge:chal,timeout:90000,userVerification:"required",
+   allowCredentials:[{type:"public-key",id:fromB64url(raw)}]
+  }});
+  if(!cred){msg=t("stuBioVerifyFail");return draw()}
+  if(!S.att[DATE])S.att[DATE]={};
+  S.att[DATE][sid]="P";
+  await savec("att");
+  msg=t("present")+": "+((S.stu.find(x=>x.id===sid)||{}).name||sid);draw();
+ }catch(err){msg=t("stuBioVerifyFail")+" — "+((err&&err.message)||"");draw()}
+}
+
+/* ---------- attendance ---------- */
+
+/* ---------- school compound geolocation (+ APK mock-GPS block) ---------- */
+function isNativeApp(){
+ try{
+  if(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform())return true;
+  if(window.NaletiGeo&&typeof NaletiGeo.getVerifiedLocation==="function")return true;
+ }catch(_){}
+ return false;
+}
+function geoEnabled(){return !!(S.cfg&&S.cfg.geoOn&&S.cfg.geoLat!=null&&S.cfg.geoLng!=null)}
+function haversineM(lat1,lng1,lat2,lng2){
+ const R=6371000,toR=x=>x*Math.PI/180;
+ const dLat=toR(lat2-lat1),dLng=toR(lng2-lng1);
+ const a=Math.sin(dLat/2)**2+Math.cos(toR(lat1))*Math.cos(toR(lat2))*Math.sin(dLng/2)**2;
+ return 2*R*Math.asin(Math.min(1,Math.sqrt(a)));
+}
+function inAttendanceWindow(){
+ if(!S.cfg.geoWinOn)return true;
+ const now=new Date();
+ const hh=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+ const a=S.cfg.geoWinFrom||"07:00",b=S.cfg.geoWinTo||"17:00";
+ if(a<=b)return hh>=a&&hh<=b;
+ return hh>=a||hh<=b;
+}
+function getPositionBrowser(){
+ return new Promise((resolve,reject)=>{
+  if(!navigator.geolocation)return reject("no");
+  navigator.geolocation.getCurrentPosition(
+   p=>resolve({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,mock:false,source:"web"}),
+   e=>reject(e&&e.code===1?"denied":e&&e.code===2?"unavailable":e&&e.code===3?"timeout":"fail"),
+   {enableHighAccuracy:true,timeout:20000,maximumAge:5000}
+  );
+ });
+}
+async function getPositionNative(){
+ // Official APK bridge: window.NaletiGeo.getVerifiedLocation()
+ if(window.NaletiGeo&&typeof NaletiGeo.getVerifiedLocation==="function"){
+  const r=await Promise.resolve(NaletiGeo.getVerifiedLocation());
+  if(!r||r.ok===false){
+   if(r&&(r.reason==="mock"||r.mock))throw "mock";
+   throw r&&r.reason?r.reason:"fail";
+  }
+  return {lat:+r.lat,lng:+r.lng,acc:r.acc!=null?+r.acc:null,mock:!!r.mock,source:"native"};
+ }
+ // Capacitor Geolocation (no mock flag unless custom plugin)
+ if(window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Geolocation){
+  const p=await Capacitor.Plugins.Geolocation.getCurrentPosition({enableHighAccuracy:true,timeout:20000});
+  return {lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy,mock:false,source:"capacitor"};
+ }
+ throw "no";
+}
+async function getPosition(){
+ if(isNativeApp()){
+  try{return await getPositionNative()}catch(e){if(e==="mock")throw "mock";/* fall through to browser if plugin missing */}
+ }
+ return getPositionBrowser();
+}
+async function geoRefresh(){
+ GEO={ok:null,lat:null,lng:null,acc:null,dist:null,err:null,mock:false,source:null};
+ if(!geoEnabled()){GEO.ok=true;GEO.err="off";return GEO}
+ try{
+  const pos=await getPosition();
+  if(pos.mock){GEO={ok:false,lat:pos.lat,lng:pos.lng,acc:pos.acc,dist:null,err:"mock",mock:true,source:pos.source};return GEO}
+  const lat=pos.lat,lng=pos.lng,acc=pos.acc;
+  const dist=haversineM(lat,lng,+S.cfg.geoLat,+S.cfg.geoLng);
+  const rad=Math.max(30,+S.cfg.geoRad||150);
+  const pad=Math.min(acc||0,40);
+  GEO={ok:dist<=rad+pad,lat,lng,acc,dist,err:null,mock:false,source:pos.source||"web"};
+ }catch(e){
+  const err=String(e);
+  GEO={ok:false,lat:null,lng:null,acc:null,dist:null,err:err,mock:err==="mock",source:null};
+ }
+ return GEO;
+}
+async function geoRequire(){
+ if(!inAttendanceWindow()){msg=t("geoWinBlock");draw();return false}
+ if(!geoEnabled())return true;
+ await geoRefresh();
+ if(GEO.err==="mock"||GEO.mock){msg=t("geoMock");draw();return false}
+ if(GEO.err==="denied"||GEO.err==="no"||GEO.err==="unavailable"||GEO.err==="timeout"||GEO.err==="fail"){
+  msg=t("geoNo");draw();return false;
+ }
+ if(!GEO.ok){msg=t("geoOut")+(GEO.dist!=null?" ("+Math.round(GEO.dist)+" m)":"");draw();return false}
+ return true;
+}
+async function geoSetSchoolHere(){
+ try{
+  const pos=await getPosition();
+  if(pos.mock){msg=t("geoMock");return draw()}
+  S.cfg.geoLat=+pos.lat.toFixed(6);
+  S.cfg.geoLng=+pos.lng.toFixed(6);
+  if(!S.cfg.geoRad)S.cfg.geoRad=150;
+  S.cfg.geoOn=true;
+  await savec("cfg");
+  msg=t("geoOk")+" · "+S.cfg.geoLat+", "+S.cfg.geoLng;draw();
+ }catch(e){msg=e==="mock"?t("geoMock"):t("geoNo");draw()}
+}
+async function geoCheckBtn(){
+ await geoRefresh();
+ if(GEO.err==="mock"||GEO.mock)msg=t("geoMock");
+ else if(GEO.ok)msg=t("geoOk")+(GEO.source?" ("+(GEO.source==="native"||GEO.source==="capacitor"?t("geoNative"):t("geoWeb"))+")":"");
+ else if(GEO.err)msg=t("geoNo");
+ else msg=t("geoOut");
+ draw();
+}
+
+function attS(kind){
+ if(U.role==="parent")return attParent();
+ const staff=kind==="tatt",m=S[kind][DATE]||{},L=staff?S.staff.slice().sort(byName):stuBy(G,P);
+ const cnt={P:0,A:0,L:0};L.forEach(x=>{if(cnt[m[x.id]]!=null)cnt[m[x.id]]++});
+ const lab={P:t("present"),A:t("absent"),L:t("late")};
+ const needGeo=geoEnabled();
+ const geoOk=!needGeo||GEO.ok===true;
+ let h=`<div class="card"><h2>${t("geo")}</h2>`;
+ if(!needGeo)h+=`<p class="mut">${t("geoOff")}</p>`;
+ else{
+  h+=`<p class="mut">${t("geoRad")}: ${S.cfg.geoRad||150} m · school: ${S.cfg.geoLat}, ${S.cfg.geoLng}</p>`;
+  if(GEO.mock||GEO.err==="mock")h+=`<span class="pill bad">${t("geoMock")}</span>`;
+  else if(GEO.ok===true)h+=`<span class="pill ok">${t("geoOk")}</span>`;
+  else if(GEO.ok===false)h+=`<span class="pill bad">${t("geoOut")}</span>`;
+  else h+=`<span class="pill">${t("geoNeed")}</span>`;
+  if(GEO.dist!=null)h+=` <span class="mut">${t("geoDist")}: ${Math.round(GEO.dist)} m · ${t("geoAcc")}: ${GEO.acc!=null?Math.round(GEO.acc)+" m":"—"}</span>`;
+  h+=`<p class="mut">${isNativeApp()?t("geoNative"):t("geoWeb")+" — "+t("geoApkOnly")}</p>`;
+  h+=`<div class="row" style="margin-top:8px"><button onclick="geoCheckBtn()">${t("geoCheck")}</button></div>`;
+ }
+ h+=`${msgH()}</div>`;
+ h+=`<div class="card"><h2>${t("bio")}</h2>
+ <p class="mut">${t("bioNote")}</p>
+ <div class="row">`;
+ if(!bioSupported())h+=`<p class="warn">${t("bioNo")}</p>`;
+ else if(BIO_OK)h+=`<span class="pill ok">${t("bioOn")}</span><button class="ghost" onclick="bioLock()">${t("bioLock")}</button>`;
+ else h+=`<button onclick="bioUnlock()">${t("bioOff")}</button><button class="ghost" onclick="bioEnroll()">${t("bioEnroll")}</button>`;
+ h+=`</div></div>`;
+ h+=`<div class="card"><div class="row"><input type="date" id="ad" value="${e(DATE)}" onchange="DATE=this.value||day();draw()" aria-label="${t("date")}"></div>${staff?"":filt()}
+ <div class="row"><span class="pill ok">${t("present")} ${cnt.P}</span><span class="pill bad">${t("absent")} ${cnt.A}</span><span class="pill">${t("late")} ${cnt.L}</span></div>`;
+ if(needGeo&&!geoOk)h+=`<p class="warn">${t("geoNeed")}</p>`;
+ else{
+  h+=`${L.length?`<button class="ghost" onclick="allP('${kind}')">${t("markall")}</button><p class="mut">${t("tapnote")}</p>`:""}
+  ${L.map(x=>{const has=!!stuBioId(x.id);return `<div class="li"><div><b>${e(x.name)}</b><div class="mut">${e(x.id)} · ${has?t("stuBioHas"):t("stuBioNo")}</div></div><div class="form">
+${!staff?`<button class="ghost" onclick="bioEnrollStudent('${e(x.id)}')">${t("stuBioReg")}</button>
+${has?`<button class="ghost" onclick="bioMarkStudent('${e(x.id)}')">${t("stuBioMark")}</button><button class="ghost" onclick="bioDelStudent('${e(x.id)}')">${t("stuBioDel")}</button>`:""}`:""}
+<button class="st s${m[x.id]||0}" onclick="cyc('${kind}','${e(x.id)}')">${lab[m[x.id]]||"—"}</button></div></div>`}).join("")||t("none")}`;
+ }
+ h+=`</div>`;
+ return h;
+}
+async function cyc(kind,id){
+ if(!(await geoRequire()))return;
+ const c=(S[kind][DATE]||{})[id],n=c==null?"P":c==="P"?"A":c==="A"?"L":null;
+ // store last location proof on mark
+ const meta=GEO.lat!=null?{lat:GEO.lat,lng:GEO.lng,acc:GEO.acc,dist:GEO.dist}:null;
+ await patch(kind,{[DATE]:{[id]:n}});
+ if(meta&&S.cfg.geoOn){if(!S.attMeta)S.attMeta={};if(!S.attMeta[DATE])S.attMeta[DATE]={};S.attMeta[DATE][id]=meta;try{await savec("attMeta")}catch(_){}}
+ draw();
+}
+async function allP(kind){
+ if(!(await geoRequire()))return;
+ const m=S[kind][DATE]||{},L=kind==="tatt"?S.staff:stuBy(G,P),f={};L.forEach(x=>{if(!m[x.id])f[x.id]="P"});
+ await patch(kind,{[DATE]:f});draw();
+}
+function attParent(){
+ const sid=U.link,a=attStat(S.att,sid);
+ const rows=Object.entries(S.att).filter(([d,v])=>v[sid]==="A"||v[sid]==="L").sort((x,y)=>y[0].localeCompare(x[0])).slice(0,40);
+ return `<div class="card"><h2>${t("rate")}: ${a.rate==null?"-":a.rate+"%"}</h2><div class="bar"><i style="width:${a.rate||0}%"></i></div>
+ <p class="mut">${t("present")}: ${a.P} · ${t("late")}: ${a.L} · ${t("absent")}: ${a.A}</p></div>
+ <div class="card">${rows.map(([d,v])=>`<div class="li"><span>${e(d)}</span><span class="pill ${v[sid]==="A"?"bad":""}">${v[sid]==="A"?t("absent"):t("late")}</span></div>`).join("")||t("none")}</div>`;
+}
+
+/* ---------- marks & report cards ---------- */
+const MK_PARTS=[
+ {k:"mid",max:20,lab:"Mid"},
+ {k:"final",max:40,lab:"Final"},
+ {k:"activity",max:10,lab:"Class activity"},
+ {k:"worksheet",max:10,lab:"Worksheet"},
+ {k:"exercise",max:10,lab:"Exercise"},
+ {k:"neat",max:10,lab:"Neat"}
+];
+function mkVal(raw){
+ if(raw==null)return null;
+ if(typeof raw==="number")return{total:raw,mid:null,final:null,activity:null,worksheet:null,exercise:null,neat:null};
+ const o={};let sum=0,n=0;
+ MK_PARTS.forEach(p=>{const v=raw[p.k];if(typeof v==="number"){o[p.k]=v;sum+=v;n++}else o[p.k]=null});
+ o.total=n?r1(sum):(typeof raw.total==="number"?raw.total:null);
+ return o;
+}
+function mkTotal(raw){const v=mkVal(raw);return v&&v.total!=null?v.total:null}
+const termSel=()=>sel("tm",S.cfg.terms.map((x,i)=>[i,x]),TM,`onchange="TM=+this.value;draw()" aria-label="${t("term")}"`);
+function mkS(){
+ const L=stuBy(G,P);
+ const allSub=subs();
+ const mySub=U.role==="teacher"?teacherSubs():allSub;
+ const list=U.role==="admin"?allSub:(mySub.length?mySub:[]);
+ const adm=U.role==="admin"||U.role==="teacher";
+ // keep SJ in range of allowed list
+ if(list.length&&SJ>=list.length)SJ=0;
+ const sub=list[SJ]||list[0]||"";
+ const canEdit=adm&&sub&&canEditSubj(sub);
+ let h=`<div class="card">${filt()}<div class="row">${termSel()}`;
+ if(U.role==="teacher"){
+  if(!list.length)h+=`<p class="warn">${t("noSubj")}</p>`;
+  else h+=`${sel("sj",list.map((x,i)=>[i,x]),SJ,`onchange="SJ=+this.value;draw()" aria-label="${t("subject")}"`)}<p class="mut">${t("subjOnly")}: <b>${e(list.join(", "))}</b></p>`;
+ }else{
+  h+=`${sel("sj",allSub.map((x,i)=>[i,x]),SJ,`onchange="SJ=+this.value;draw()" aria-label="${t("subject")}"`)}`;
+ }
+ h+=`</div>
+ <p class="mut">Mid 20 · Final 40 · Class activity 10 · Worksheet 10 · Exercise 10 · Neat 10 = <b>100</b></p></div>`;
+ if(!list.length&&U.role==="teacher")return h+`<div class="card">${t("noSubj")}</div>`;
+ if(!L.length)return h+`<div class="card">${t("none")}</div>`;
+ h+=`<div class="card"><div class="tbl"><table class="ct"><tr><th>#</th><th>${t("name")}</th><th>ID</th>`;
+ MK_PARTS.forEach(p=>h+=`<th>${p.lab}<br><small>/${p.max}</small></th>`);
+ h+=`<th>${t("total")}</th></tr>`;
+ L.forEach((s,i)=>{
+  const v=mkVal(((S.mk[s.id]||{})[TM]||{})[sub]);
+  h+=`<tr><td>${i+1}</td><td>${e(s.name)}</td><td><small>${e(s.id)}</small></td>`;
+  MK_PARTS.forEach(p=>{
+   const val=v&&v[p.k]!=null?v[p.k]:"";
+   if(canEdit)h+=`<td><input class="sc" data-id="${e(s.id)}" data-part="${p.k}" data-max="${p.max}" type="number" min="0" max="${p.max}" step="0.5" inputmode="decimal" value="${val}" style="width:56px" aria-label="${p.lab}"></td>`;
+   else h+=`<td>${val!==""?val:"—"}</td>`;
+  });
+  h+=`<td><b class="mtot" data-id="${e(s.id)}">${v&&v.total!=null?v.total:""}</b></td></tr>`;
+ });
+ h+=`</table></div>`;
+ if(canEdit)h+=`<p><button onclick="saveMk()">${t("save")}</button> <button class="ghost" onclick="dlMkTemplate()">${t("tpl")||"Template"}</button>
+ ${U.role==="admin"?csvBtn(t("upload")||"Upload mark list CSV","uploadMk"):""}</p>`;
+ else if(U.role==="teacher")h+=`<p class="mut">${t("subjOnly")}</p>`;
+ h+=`${msgH()}</div>`;
+ return h;
+}
+async function saveMk(){
+ const list=U.role==="teacher"?teacherSubs():subs();
+ const sub=list[SJ]||list[0];
+ if(!sub||!canEditSubj(sub)){msg=t("subjOnly");return draw()}
+ const by={};let badn=0;
+ document.querySelectorAll(".sc").forEach(i=>{
+  const id=i.dataset.id,part=i.dataset.part,max=+i.dataset.max;
+  if(!by[id])by[id]={};
+  if(i.value==="")by[id][part]=null;
+  else{const v=+i.value;if(!(v>=0&&v<=max)){badn++;return}by[id][part]=r1(v)}
+ });
+ if(badn){msg=t("range");return draw()}
+ const f={};
+ Object.keys(by).forEach(id=>{
+  const parts=by[id];let sum=0,n=0,allEmpty=true;
+  MK_PARTS.forEach(p=>{if(parts[p.k]!=null){sum+=parts[p.k];n++;allEmpty=false}});
+  if(allEmpty){const had=(((S.mk[id]||{})[TM]||{})[sub])!=null;if(had)f[id]={[TM]:{[sub]:null}}}
+  else{parts.total=r1(sum);f[id]={[TM]:{[sub]:parts}}}
+ });
+ await patch("mk",f);msg=t("saved");draw();
+}
+function dlMkTemplate(){
+ const hdr="StudentID,Name,Subject,Mid,Final,Activity,Worksheet,Exercise,Neat\n";
+ const ex="N001,Abebe Kebede,Maths,15,32,8,9,7,10\n";
+ dl("naleti-marks-template.csv","\ufeff"+hdr+ex,"text/csv");
+}
+async function uploadMk(inp){
+ if(U.role!=="admin"){msg=t("subjOnly");return draw()}
+ const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=async()=>{
+  try{
+   const rows=parseCSV(r.result);if(!rows.length){msg=t("badfile");return draw()}
+   if(!confirm(t("sure")+" ("+rows.length+")"))return;
+   const patchF={};let n=0;
+   rows.forEach(p=>{
+    // StudentID, Name?, Subject, Mid, Final, Activity, Worksheet, Exercise, Neat
+    let sid=p[0],subj,mid,fin,act,ws,ex,nt;
+    if(p.length>=9){subj=p[2];mid=+p[3];fin=+p[4];act=+p[5];ws=+p[6];ex=+p[7];nt=+p[8]}
+    else if(p.length>=8){subj=p[1];mid=+p[2];fin=+p[3];act=+p[4];ws=+p[5];ex=+p[6];nt=+p[7]}
+    else return;
+    if(!sid||!subj)return;
+    if(!S.stu.find(x=>x.id===sid))return;
+    const parts={mid:null,final:null,activity:null,worksheet:null,exercise:null,neat:null};
+    const vals=[[mid,20,"mid"],[fin,40,"final"],[act,10,"activity"],[ws,10,"worksheet"],[ex,10,"exercise"],[nt,10,"neat"]];
+    let sum=0,cnt=0;
+    vals.forEach(([v,mx,k])=>{if(!isNaN(v)&&v>=0&&v<=mx){parts[k]=r1(v);sum+=parts[k];cnt++}});
+    if(!cnt)return;
+    parts.total=r1(sum);
+    if(!patchF[sid])patchF[sid]={[TM]:{}};
+    if(!patchF[sid][TM])patchF[sid][TM]={};
+    patchF[sid][TM][subj]=parts;n++;
+   });
+   await patch("mk",patchF);msg=t("saved")+" ("+n+")";draw();
+  }catch(x){msg=t("badfile");draw()}
+ };
+ r.readAsText(f);
+}
+function cardHTML(sid){
+ const st=S.stu.find(x=>x.id===sid);if(!st)return `<p>${t("none")}</p>`;
+ const TR=S.cfg.terms,sj=subs(),m=S.mk[sid]||{},pm=S.cfg.pass==null?50:S.cfg.pass;
+ const ys=j=>{const v=TR.map((_,i)=>mkTotal((m[i]||{})[j])).filter(x=>x!=null);return v.length?r1(v.reduce((a,b)=>a+b,0)/v.length):null};
+ const tms=TR.map((_,i)=>tm(sid,i)),avs=tms.filter(x=>x.avg!=null).map(x=>x.avg),ov=avs.length?r1(avs.reduce((a,b)=>a+b,0)/avs.length):null;
+ const at=attStat(S.att,sid);
+ const cell=raw=>{const t=mkTotal(raw);return t!=null?t:"-"};
+ return `<div class="rc"><div class="rch"><h2>${e(S.cfg.school)}</h2><div>${t("rcT")} · ${e(S.cfg.year)}</div></div>
+ <table class="ct"><tr><td>${t("name")}</td><td><b>${e(st.name)}</b></td><td>ID</td><td>${e(st.id)}</td></tr><tr><td>${t("grade")}</td><td>${st.grade}</td><td>${t("prog")}</td><td>${t(st.prog)}</td></tr></table><br>
+ <table class="ct"><tr><th>${t("subject")}</th>${TR.map(x=>`<th>${e(x)}</th>`).join("")}<th>${t("avg")}</th><th>${t("grd")}</th></tr>
+ ${sj.map(j=>{const y=ys(j);return `<tr><td>${e(j)}</td>${TR.map((_,i)=>`<td>${cell((m[i]||{})[j])}</td>`).join("")}<td>${y==null?"-":y}</td><td>${y==null?"":gl(y)}</td></tr>`}).join("")}
+ <tr><th>${t("total")}</th>${tms.map(x=>`<th>${x.n?r1(x.sum):"-"}</th>`).join("")}<th></th><th></th></tr>
+ <tr><th>${t("avg")}</th>${tms.map(x=>`<th>${x.n?r1(x.avg):"-"}</th>`).join("")}<th>${ov==null?"-":ov}</th><th>${ov==null?"":gl(ov)}</th></tr>
+ <tr><th>${t("rank")}</th>${TR.map((_,i)=>{const r=rankOf(sid,i);return `<th>${r?r.r+" / "+r.n:"-"}</th>`}).join("")}<th></th><th></th></tr></table><br>
+ <table class="ct"><tr><td>${t("present")}: ${at.P}</td><td>${t("late")}: ${at.L}</td><td>${t("absent")}: ${at.A}</td><td>${t("rate")}: ${at.rate==null?"-":at.rate+"%"}</td></tr>
+ <tr><td colspan="4"><b>${t("result")}: ${ov==null?"-":ov>=pm?t("pass"):t("fail")}</b> (${t("passmark")} ${pm})</td></tr></table>
+ ${TR.map((x,i)=>{const r=(S.rem[sid]||{})[i];return r&&(r.c||r.r)?`<p><b>${e(x)}</b> — ${t("conduct")}: ${e(r.c||"-")}. ${e(r.r||"")}</p>`:""}).join("")}
+ <div class="sig"><span>${t("sigT")}</span><span>${t("sigD")}</span><span>${t("sigP")}</span></div></div>`;
+}
+function cardS(){
+ if(U.role==="parent")return `<div class="card">${cardHTML(U.link)}</div><p><button onclick="printHTML(cardHTML('${e(U.link)}'))">${t("print")}</button></p>`;
+ const L=stuBy(G,P);if(!L.find(x=>x.id===CS))CS=L[0]?L[0].id:"";
+ const r=CS?((S.rem[CS]||{})[TM]||{}):{};
+ return `<div class="card">${filt()}<div class="row">${sel("cs",L.map(x=>[x.id,x.name]),CS,`onchange="CS=this.value;draw()" aria-label="${t("name")}"`)}</div></div>`+
+ (CS?`<div class="card">${cardHTML(CS)}<div class="row"><button onclick="printHTML(cardHTML('${e(CS)}'))">${t("print")}</button><button class="ghost" onclick="printHTML(stuBy(G,P).map(x=>cardHTML(x.id)).join(''))">${t("printall")}</button></div></div>
+ <div class="card"><h2>${t("remark")}</h2><div class="row">${termSel()}${sel("rc",["-","A","B","C","D"].map(x=>[x,x]),r.c||"-",`aria-label="${t("conduct")}"`)}</div><textarea id="rr" aria-label="${t("remark")}">${e(r.r||"")}</textarea><p><button onclick="saveRem()">${t("save")}</button></p>${msgH()}</div>`:`<div class="card">${t("none")}</div>`);
+}
+async function saveRem(){const c=val("rc");await patch("rem",{[CS]:{[TM]:{c:c==="-"?"":c,r:val("rr")}}});msg=t("saved");draw()}
+
+/* ---------- timetable ---------- */
+const BELL=[["2:25","3:10"],["3:10","3:55"],["3:55","4:40"],["5:00","5:45"],["5:45","6:30"],["7:30","8:15"],["8:15","9:00"]];
+const maxP=d=>d===4?6:7;
+function grid(cell){
+ let h=`<div class="tbl"><table class="tt"><tr><th></th>${[0,1,2,3,4].map(d=>`<th>${t("d"+d)}</th>`).join("")}</tr>`;
+ for(let s=1;s<=7;s++){
+  h+=`<tr><th>${s}<div style="font-size:10px;font-weight:400">${BELL[s-1][0]}-${BELL[s-1][1]}</div></th>`;
+  for(let d=0;d<5;d++)h+=s>maxP(d)?`<td class="off"></td>`:cell(d,s);
+  h+="</tr>";
+ }
+ return h+`</table></div><p class="mut">${t("frinote")}</p>`;
+}
+const ttFind=(g,p,d,s)=>S.tt.find(x=>x.g===g&&x.p===p&&x.d===d&&x.s===s);
+const tname=id=>(S.staff.find(x=>x.id===id)||{name:""}).name;
+function clashes(){const m={};S.tt.forEach(x=>{if(!x.tid)return;(m[x.tid+"|"+x.d+"|"+x.s]=m[x.tid+"|"+x.d+"|"+x.s]||[]).push(x)});return Object.values(m).filter(a=>a.length>1)}
+function ttGridHTML(){
+ if(TVIEW==="teacher"){
+  const id=TV;
+  return grid((d,s)=>{const l=S.tt.filter(x=>x.tid===id&&x.d===d&&x.s===s);return `<td${l.length>1?' class="cl"':""}>${l.map(x=>`${x.g}-${x.p==="am"?"A":"O"}<br>${e(x.subj)}`).join("<hr>")}</td>`});
+ }
+ const g=U.role==="parent"?(S.stu.find(x=>x.id===U.link)||{}).grade:G,p=U.role==="parent"?(S.stu.find(x=>x.id===U.link)||{}).prog:P,adm=U.role==="admin";
+ return grid((d,s)=>{const x=ttFind(g,p,d,s),cl=x&&x.tid&&S.tt.some(y=>y!==x&&y.tid===x.tid&&y.d===d&&y.s===s);
+  return `<td${cl?' class="cl"':""}${adm?` onclick="TE={g:${g},p:'${p}',d:${d},s:${s}};draw()"`:""}>${x?`${e(x.subj)}<br><small>${e(tname(x.tid))}</small>`:"&nbsp;"}</td>`});
+}
+function ttS(){
+ const adm=U.role==="admin",par=U.role==="parent";
+ if(!TV)TV=U.role==="teacher"?U.link:(teachers()[0]||{}).id||"";
+ let h="";
+ if(!par)h+=`<div class="card"><div class="row">${sel("tvw",[["class",t("byclass")],["teacher",t("byteacher")]],TVIEW,`onchange="TVIEW=this.value;TE=null;draw()" aria-label="${t("tt")}"`)}</div>${TVIEW==="class"?filt():`<div class="row">${sel("tv",teachers().map(x=>[x.id,x.name]),TV,`onchange="TV=this.value;draw()" aria-label="${t("teacher")}"`)}</div>`}${adm?`<div class="row"><button class="ghost" onclick="dlTpl('tt')">${t("tpl")}</button> ${csvBtn(t("upload"),"uploadTT")}</div>`:""}</div>`;
+ if(adm&&TE&&TVIEW==="class"){
+  const x=ttFind(TE.g,TE.p,TE.d,TE.s)||{};
+  h+=`<div class="card"><h2>${t("d"+TE.d)} · ${t("period")} ${TE.s}</h2><div class="row">${sel("ts",[["","-"],...subs().map(z=>[z,z])],x.subj||"",`aria-label="${t("subject")}"`)}${sel("tt2",[["","-"],...teachers().map(z=>[z.id,z.name])],x.tid||"",`aria-label="${t("teacher")}"`)}</div>
+  <div class="row"><button onclick="saveTT()">${t("save")}</button><button class="ghost" onclick="clearTT()">${t("clear")}</button><button class="ghost" onclick="TE=null;draw()">${t("cancel")}</button></div></div>`;
+ }
+ h+=`<div class="card">${ttGridHTML()}<p><button class="ghost" onclick="printHTML('<h2>'+e(S.cfg.school)+'</h2>'+ttGridHTML())">${t("print")}</button></p></div>`;
+ if(adm){
+  const c=clashes(),ld={};S.tt.forEach(x=>{if(x.tid)ld[x.tid]=(ld[x.tid]||0)+1});
+  h+=`<div class="card"><h2>${t("clash")}</h2>${c.map(a=>`<div class="li warn"><span>${e(tname(a[0].tid))} · ${t("d"+a[0].d)} ${t("period")} ${a[0].s}</span><span>${a.map(x=>x.g+"-"+(x.p==="am"?"A":"O")).join(", ")}</span></div>`).join("")||t("noclash")}</div>
+  <div class="card"><h2>${t("load")}</h2>${teachers().map(x=>`<div class="li"><span>${e(x.name)}</span><span class="pill">${ld[x.id]||0}</span></div>`).join("")||t("none")}</div>`;
+ }
+ return h;
+}
+async function saveTT(){
+ const subj=val("ts"),tid=val("tt2");
+ if(tid&&S.tt.some(y=>y.tid===tid&&y.d===TE.d&&y.s===TE.s&&!(y.g===TE.g&&y.p===TE.p))&&!confirm(t("tclash")))return;
+ S.tt=S.tt.filter(x=>!(x.g===TE.g&&x.p===TE.p&&x.d===TE.d&&x.s===TE.s));
+ if(subj||tid)S.tt.push({g:TE.g,p:TE.p,d:TE.d,s:TE.s,subj,tid});
+ TE=null;await savec("tt");draw();
+}
+async function clearTT(){S.tt=S.tt.filter(x=>!(x.g===TE.g&&x.p===TE.p&&x.d===TE.d&&x.s===TE.s));TE=null;await savec("tt");draw()}
+
+/* ---------- fees ---------- */
+function receiptHTML(f){
+ const s=S.stu.find(x=>x.id===f.sid)||{name:f.sid,grade:"",prog:""},upto=S.fee.filter(x=>x.sid===f.sid&&(x.date<f.date||(x.date===f.date&&x.no<=f.no))).reduce((a,x)=>a+x.amt,0),d=Math.max(0,dueOf(s)-upto);
+ return `<div class="rc"><div class="rch"><h2>${e(S.cfg.school)}</h2><div>${t("receipt")} ${e(f.no)}</div></div>
+ <table class="ct"><tr><td>${t("date")}</td><td>${e(f.date)}</td></tr><tr><td>${t("name")}</td><td>${e(s.name)} (${e(s.id||f.sid)})</td></tr><tr><td>${t("grade")}</td><td>${s.grade} ${s.prog?t(s.prog):""}</td></tr>
+ <tr><td>${t("amount")}</td><td><b>${f.amt}</b></td></tr>${f.note?`<tr><td>${t("note")}</td><td>${e(f.note)}</td></tr>`:""}<tr><td>${t("bal")}</td><td>${d}</td></tr></table>
+ <div class="sig"><span>${t("sigD")}</span><span>${t("sigP")}</span></div></div>`;
+}
+function feeDetail(sid,adm){
+ const s=S.stu.find(x=>x.id===sid);if(!s)return `<div class="card">${t("none")}</div>`;
+ const d=dueOf(s),p=paidOf(sid),b=d-p,pays=S.fee.filter(f=>f.sid===sid).sort((x,y)=>y.date.localeCompare(x.date));
+ return `<div class="card"><h2>${e(s.name)}</h2><p class="mut">${t("due")}: ${d} · ${t("paid")}: ${p} · <span class="pill ${b>0?"bad":"ok"}">${t("bal")}: ${b}</span></p>
+ ${adm?`<div class="row"><input id="pa" type="number" inputmode="decimal" min="0" placeholder="${t("amount")}" aria-label="${t("amount")}"><input id="pd" type="date" value="${day()}" aria-label="${t("date")}"><input id="pnote" placeholder="${t("note")}" aria-label="${t("note")}"></div><button onclick="pay()">${t("newpay")}</button>${msgH()}`:""}
+ ${pays.map(f=>`<div class="li"><span>${e(f.no)} · ${e(f.date)} · <b>${f.amt}</b></span><div class="fix"><button class="ghost" onclick="printHTML(receiptHTML(S.fee.find(x=>x.id==='${e(f.id)}')))">${t("receipt")}</button>${adm?` <button class="ghost" onclick="delPay('${e(f.id)}')">${t("del")}</button>`:""}</div></div>`).join("")}</div>`;
+}
+function feeS(){
+ if(U.role==="parent")return feeDetail(U.link,false);
+ const L=S.stu.filter(s=>s.grade===G&&s.prog===P).sort(byName);
+ const td=S.stu.reduce((a,s)=>a+dueOf(s),0),tp=S.fee.reduce((a,f)=>a+f.amt,0);
+ return `<div class="card"><p class="mut">${t("due")}: ${td} · ${t("paid")}: ${tp} · ${t("bal")}: ${td-tp}</p>${filt()}
+ ${U.role==="admin"?`<div class="row"><button class="ghost" onclick="dlTpl('fee')">${t("tpl")}</button> ${csvBtn(t("upload"),"uploadFee")}</div>`:""}
+ ${L.map(s=>{const b=dueOf(s)-paidOf(s.id);return `<div class="li"><div>${e(s.name)}<div class="mut">${e(s.id)}</div></div><div class="fix"><span class="pill ${b>0?"bad":"ok"}">${b}</span> <button class="ghost" onclick="FS='${e(s.id)}';msg='';draw()">${t("open")}</button></div></div>`}).join("")||t("none")}</div>`+
+ (FS?feeDetail(FS,true):"")+
+ `<div class="card"><h2>${t("yfee")}</h2><div class="row">${GR.map(([g])=>`<div><label class="mut">${t("grade")} ${g}</label><input class="fg" data-g="${g}" type="number" inputmode="numeric" min="0" value="${(S.cfg.feeG||{})[g]||""}"></div>`).join("")}</div><button onclick="saveFeeG()">${t("save")}</button></div>`;
+}
+async function pay(){
+ const amt=+val("pa");if(!(amt>0)){msg=t("range2");return draw()}
+ const no="R-"+String(S.fee.reduce((m,f)=>Math.max(m,+String(f.no).slice(2)||0),0)+1).padStart(4,"0");
+ S.fee.push({id:Date.now().toString(36),no,sid:FS,date:val("pd")||day(),amt,note:val("pnote")});msg="";await savec("fee");draw();
+}
+async function delPay(id){if(!confirm(t("sure")))return;S.fee=S.fee.filter(f=>f.id!==id);await savec("fee");draw()}
+async function saveFeeG(){const f={};document.querySelectorAll(".fg").forEach(i=>{f[i.dataset.g]=Math.max(0,+i.value||0)});S.cfg.feeG=f;await savec("cfg");msg=t("saved");draw()}
+
+/* ---------- library ---------- */
+function libS(){
+ const adm=U.role==="admin",lend=adm||U.role==="teacher",par=U.role==="parent";
+ const open=S.loan.filter(l=>!l.ret),av=b=>b.copies-open.filter(l=>l.bid===b.id).length;
+ let canUp=adm||U.role==="teacher";
+ let up=canUp?`<div class="card"><h2>${t("upPdf")||"Upload PDF / Word book"}</h2>
+ <p class="mut">${t("bookFile")||"PDF (.pdf) or Word (.doc, .docx) — max ~8 MB"}</p>
+ <div class="row"><input id="btitle" placeholder="${t("booktitle")}" style="flex:2"><input id="bauthor" placeholder="${t("author")}" style="flex:1"><input id="bcopies" type="number" min="1" value="1" style="max-width:80px" title="${t("copies")}"></div>
+ <div class="row"><label class="ghost" style="display:inline-block;border:1px solid var(--g);border-radius:6px;padding:9px 14px;font-weight:700;color:var(--g);cursor:pointer">${t("upPdf")||"Choose PDF / Word"}
+ <input type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="uploadBookFile(this)"></label></div>
+ <p class="mut">Or list only (CSV): <button class="ghost" onclick="dlTpl('lib')">${t("tpl")}</button> ${csvBtn(t("upload"),"uploadLib")}</p>
+ ${msgH()}</div>`:"";
+ const bt=id=>(S.lib.find(x=>x.id===id)||{title:"?"}).title;
+ const who=w=>w.startsWith("S:")?stuName(w.slice(2)):tname(w.slice(2))||w;
+ let h=crud("lib",adm);
+ if(lend)h+=`<div class="card"><h2>${t("lend")}</h2><div class="row">${sel("lb",S.lib.filter(b=>av(b)>0).map(b=>[b.id,b.title]),"",`aria-label="${t("booktitle")}"`)}</div>
+ <div class="row"><select id="lw" aria-label="${t("borrower")}"><optgroup label="${t("stu")}">${S.stu.slice().sort(byName).map(s=>`<option value="S:${e(s.id)}">${e(s.id)} ${e(s.name)}</option>`).join("")}</optgroup><optgroup label="${t("staff")}">${S.staff.slice().sort(byName).map(s=>`<option value="F:${e(s.id)}">${e(s.name)}</option>`).join("")}</optgroup></select>
+ <input id="ld" type="number" min="1" value="14" aria-label="${t("days")}" style="max-width:90px"></div><button onclick="lendBook()">${t("lend")}</button>${msgH()}</div>`;
+ const loans=par?open.filter(l=>l.who==="S:"+U.link):open;
+ h+=`<div class="card"><h2>${t("loans")}</h2>${loans.map(l=>`<div class="li"><div>${e(bt(l.bid))}<div class="mut">${par?"":e(who(l.who))+" · "}${t("duedate")} ${e(l.due)}</div></div><div class="fix">${l.due<day()?`<span class="pill bad">${t("overdue")}</span> `:""}${lend?`<button class="ghost" onclick="retBook('${e(l.id)}')">${t("ret")}</button>`:""}</div></div>`).join("")||t("none")}</div>`;
+ h+=`<div class="card"><h2>${t("books")}</h2>${S.lib.slice().sort((a,b)=>a.title.localeCompare(b.title)).map(b=>{const fileBtn=b.file&&MODE==="server"?'<a class="ghost" style="display:inline-block;border:1px solid var(--g);border-radius:6px;padding:6px 10px;font-weight:700;color:var(--g);text-decoration:none;margin-right:6px" href="/api/books/'+e(b.id)+'/file" target="_blank" rel="noopener">'+(t("openBook")||"Open")+'</a> ':(b.filename?'<span class="pill">'+e(b.filename)+'</span> ':"");return '<div class="li"><div>'+e(b.title)+'<div class="mut">'+e(b.author||"")+(b.filename?" · "+e(b.filename):"")+'</div></div><div class="form">'+fileBtn+'<span class="pill">'+av(b)+"/"+b.copies+" "+t("avail")+'</span>'+(adm?" "+rb("lib",b.id):"")+'</div></div>'}).join("")||t("none")}</div>`;
+ return up+h;
+}
+async function lendBook(){
+ const bid=val("lb"),w=val("lw"),days=Math.max(1,+val("ld")||14);if(!bid||!w)return;
+ const b=S.lib.find(x=>x.id===bid);if(S.loan.filter(l=>!l.ret&&l.bid===bid).length>=b.copies){msg=t("nocopy");return draw()}
+ const out=day();S.loan.push({id:Date.now().toString(36),bid,who:w,out,due:addDays(out,days),ret:""});msg="";await savec("loan");draw();
+}
+async function retBook(id){const l=S.loan.find(x=>x.id===id);if(l)l.ret=day();await savec("loan");draw()}
+
+
+/* ---------- dashboard ---------- */
+function homeS(){
+ const today=day();
+ const att=S.att[today]||{};
+ let abs=0,late=0,pres=0;
+ S.stu.forEach(s=>{const v=att[s.id];if(v==="A")abs++;else if(v==="L")late++;else if(v==="P")pres++});
+ const unpaid=S.stu.reduce((a,s)=>a+Math.max(0,dueOf(s)-paidOf(s.id)),0);
+ const openHw=(S.hw||[]).filter(h=>!h.due||h.due>=today).length;
+ const recentNews=(S.news||[]).slice(-3).reverse();
+ const recentHw=(S.hw||[]).slice().sort((a,b)=>(b.due||"").localeCompare(a.due||"")).slice(0,5);
+ let h=`<div class="card"><h2>${t("home")} — ${e(S.cfg.school)}</h2>
+ <p class="mut">${e(S.cfg.year)} · ${today}</p>
+ <div class="row">
+  <span class="pill ok">${t("dashStu")}: ${S.stu.length}</span>
+  <span class="pill">${t("dashStaff")}: ${S.staff.length}</span>
+  <span class="pill ok">${t("present")}: ${pres}</span>
+  <span class="pill bad">${t("dashAbs")}: ${abs}</span>
+  <span class="pill">${t("dashLate")}: ${late}</span>
+ </div>
+ <p><b>${t("dashFee")}:</b> ${unpaid} &nbsp;|&nbsp; <b>${t("dashHw")}:</b> ${openHw}</p></div>`;
+ if(U.role==="parent"){
+  const sid=U.link,st=S.stu.find(x=>x.id===sid);
+  const a=attStat(S.att,sid);
+  const b=st?dueOf(st)-paidOf(sid):0;
+  h+=`<div class="card"><h2>${e(st?st.name:sid)}</h2>
+   <p>${t("grade")} ${st?st.grade:""} · ${st?t(st.prog):""}</p>
+   <p>${t("rate")}: ${a.rate==null?"-":a.rate+"%"} · ${t("bal")}: ${b}</p>
+   <p class="mut">${t("dob")}: ${e(st&&st.dob||"—")} · ${t("emg")}: ${e(st&&st.emg||"—")}</p></div>`;
+ }
+ h+=`<div class="card"><h2>${t("hw")}</h2>${recentHw.map(x=>`<div class="li"><div><b>${e(x.title)}</b><div class="mut">${e(x.subj||"")} · ${t("hwDue")} ${e(x.due||"—")} · G${x.g||"?"} ${x.p?t(x.p):""}</div></div></div>`).join("")||t("hwNone")}</div>`;
+ h+=`<div class="card"><h2>${t("news")}</h2>${recentNews.map(n=>`<div class="li"><div>${e(n.t)}<div class="mut">${e(n.d)}</div></div></div>`).join("")||t("none")}</div>`;
+ const alerts=(S.alerts||[]).slice().reverse().slice(0,5);
+ if(U.role==="parent"||U.role==="admin"||U.role==="teacher")
+  h+=`<div class="card"><h2>${t("alert")}</h2>${alerts.map(a=>`<div class="li"><div>${e(a.t)}<div class="mut">${e(a.d)} · ${e(a.who||"")}</div></div></div>`).join("")||t("none")}</div>`;
+ return h;
+}
+
+/* ---------- homework ---------- */
+function hwS(){
+ const can=U.role==="admin"||U.role==="teacher";
+ let list=(S.hw||[]).slice().sort((a,b)=>(b.due||"").localeCompare(a.due||""));
+ if(U.role==="parent"){
+  const st=S.stu.find(x=>x.id===U.link);
+  if(st)list=list.filter(h=>(!h.g||+h.g===+st.grade)&&(!h.p||h.p===st.prog));
+ }
+ let form="";
+ if(can)form=`<div class="card"><h2>${t("hwAdd")}</h2>
+  <div class="row"><input id="ht" placeholder="${t("hwTitle")}"><input id="hs" placeholder="${t("hwSubj")}"></div>
+  <div class="row">${sel("hg",GR,G,`aria-label="${t("grade")}"`)}${sel("hp",PR(),P,`aria-label="${t("prog")}"`)}<input id="hd" type="date" value="${day()}" aria-label="${t("hwDue")}"></div>
+  <textarea id="hb" placeholder="${t("hwBody")}"></textarea>
+  <p><button onclick="addHw()">${t("save")}</button></p>${msgH()}</div>`;
+ const rows=list.map(x=>`<div class="li"><div><b>${e(x.title)}</b><div class="mut">${e(x.subj||"")} · ${t("hwDue")} ${e(x.due||"—")} · ${t("grade")} ${x.g||"—"} ${x.p?t(x.p):""}<br>${e(x.body||"")}</div></div>
+  ${can?`<button class="ghost" onclick="delHw('${e(x.id)}')">${t("del")}</button>`:""}</div>`).join("")||t("hwNone");
+ return form+`<div class="card"><h2>${t("hw")}</h2>${rows}</div>`;
+}
+async function addHw(){
+ const title=val("ht");if(!title){msg=t("req");return draw()}
+ if(!S.hw)S.hw=[];
+ S.hw.push({id:Date.now().toString(36),title,subj:val("hs"),g:+val("hg")||G,p:val("hp")||P,due:val("hd")||day(),body:val("hb"),by:U.id,d:day()});
+ await savec("hw");msg=t("saved");draw();
+}
+async function delHw(id){if(!confirm(t("sure")))return;S.hw=(S.hw||[]).filter(x=>x.id!==id);await savec("hw");draw()}
+
+/* ---------- parent alerts (in-app + copy for Telegram) ---------- */
+function alertS(){
+ const can=U.role==="admin"||U.role==="teacher";
+ if(U.role==="parent"){
+  const list=(S.alerts||[]).slice().reverse();
+  return `<div class="card"><h2>${t("alert")}</h2>${list.map(a=>`<div class="li"><div>${e(a.t)}<div class="mut">${e(a.d)} · ${e(a.who||"")}</div></div></div>`).join("")||t("none")}</div>`;
+ }
+ if(!can)return `<div class="card">${t("none")}</div>`;
+ const today=day();
+ const absIds=Object.entries(S.att[today]||{}).filter(([,v])=>v==="A").map(([id])=>id);
+ const absNames=absIds.map(id=>{const s=S.stu.find(x=>x.id===id);return s?s.name+" ("+id+")":id});
+ return `<div class="card"><h2>${t("alert")}</h2>
+  <p class="mut">${t("copyTg")} — save in app, then paste to Telegram/SMS.</p>
+  <div class="row"><textarea id="atxt" placeholder="${t("alertBody")}" style="min-height:90px"></textarea></div>
+  <div class="row"><button onclick="makeAlert('custom')">${t("alertSend")}</button>
+  <button class="ghost" onclick="makeAlert('abs')">${t("alertAbs")}</button>
+  <button class="ghost" onclick="makeAlert('fee')">${t("alertFee")}</button></div>
+  ${msgH()}</div>
+  <div class="card"><h2>${t("dashAbs")} (${today})</h2><p>${absNames.length?e(absNames.join(", ")):t("none")}</p></div>
+  <div class="card"><h2>${t("alert")} — recent</h2>
+  ${(S.alerts||[]).slice().reverse().slice(0,20).map(a=>`<div class="li"><div>${e(a.t)}<div class="mut">${e(a.d)} · ${e(a.who||"")}</div></div>
+   <button class="ghost" onclick="copyText(${JSON.stringify(a.t)})">${t("copyTg")}</button></div>`).join("")||t("none")}</div>`;
+}
+async function makeAlert(kind){
+ let text=val("atxt"),who=U.name||U.id;
+ const today=day();
+ if(kind==="abs"){
+  const abs=Object.entries(S.att[today]||{}).filter(([,v])=>v==="A").map(([id])=>{const s=S.stu.find(x=>x.id===id);return s?s.name:id});
+  text=abs.length?("Naleti Academy — Absent today ("+today+"): "+abs.join(", ")+". Please contact the school."):("Naleti Academy — No absences recorded for "+today+".");
+ }
+ if(kind==="fee"){
+  const due=S.stu.map(s=>({n:s.name,b:dueOf(s)-paidOf(s.id)})).filter(x=>x.b>0).slice(0,30);
+  text=due.length?("Naleti Academy — Fee reminder: "+due.map(x=>x.n+": "+x.b).join("; ")):("Naleti Academy — No unpaid balances.");
+ }
+ if(!text){msg=t("req");return draw()}
+ if(!S.alerts)S.alerts=[];
+ S.alerts.push({id:Date.now().toString(36),t:text,d:today,who,kind:kind||"custom"});
+ await savec("alerts");
+ try{await navigator.clipboard.writeText(text)}catch(_){}
+ msg=t("alertOk");draw();
+}
+function copyText(s){try{navigator.clipboard.writeText(s);msg=t("saved")}catch(_){msg=s}draw()}
+
+/* ---------- news ---------- */
+function newsS(){
+ const can=U.role!=="parent";
+ return (can?`<div class="card"><div class="row"><input id="nt" placeholder="${t("ntitle")}" aria-label="${t("ntitle")}"></div><button onclick="addNews()">${t("post")}</button></div>`:"")+
+ `<div class="card">${S.news.slice().reverse().map(n=>`<div class="li"><div>${e(n.t)}<div class="mut">${e(n.d)}</div></div>${U.role==="admin"?`<button class="ghost fix" onclick="delNews('${e(n.id)}')">${t("del")}</button>`:""}</div>`).join("")||t("none")}</div>`;
+}
+async function addNews(){const v=val("nt");if(!v)return;S.news.push({id:Date.now().toString(36),t:v,d:day()});await savec("news");draw()}
+async function delNews(id){S.news=S.news.filter(n=>n.id!==id);await savec("news");draw()}
+
+/* ---------- reports ---------- */
+function rdata(){
+ const isStu=RT==="att",isStaff=RT==="satt",src=isStaff?S.tatt:S.att;
+ if(isStu||isStaff){
+  const people=isStaff?S.staff.slice().sort(byName):stuBy(G,P);
+  const lab=isStaff?t("r_satt"):t("r_att");
+  if(RAP==="day"){
+   const d0=RDate||day(),m=src[d0]||{};
+   return{title:lab+" — "+t("rday")+" "+d0,h:[t("name"),t("present")+" / "+t("absent")+" / "+t("late")],r:people.map(s=>[s.name,statusLab(m[s.id])])};
+  }
+  if(RAP==="week"){
+   const mon=weekMon(RDate||day()),fri=ymdAdd(mon,4);
+   const heads=[t("name"),t("d0"),t("d1"),t("d2"),t("d3"),t("d4"),t("present"),t("late"),t("absent"),t("rate")];
+   return{title:lab+" — "+t("rweek")+" "+mon+" → "+fri,h:heads,r:people.map(s=>{
+    const a=attRange(src,s.id,mon,fri);const by={};a.days.forEach(x=>by[x.d]=x.v);
+    return[s.name,...[0,1,2,3,4].map(i=>statusLab(by[ymdAdd(mon,i)]||"")),a.P,a.L,a.A,a.rate==null?"":a.rate+"%"];
+   })};
+  }
+  const mo=RMo||day().slice(0,7);
+  return{title:lab+" — "+t("rmonth")+" "+mo,h:[t("name"),t("present"),t("late"),t("absent"),t("rate")],r:people.map(s=>{const a=attStat(src,s.id,mo);return[s.name,a.P,a.L,a.A,a.rate==null?"":a.rate+"%"]})};
+ }
+ if(RT==="roster"){const L=S.stu.slice().sort((a,b)=>a.grade-b.grade||String(a.prog).localeCompare(String(b.prog))||byName(a,b));return{title:t("r_roster")+" ("+L.length+")",h:["#","ID",t("name"),t("grade"),t("prog"),t("sex"),t("pn"),t("phone")],r:L.map((s,i)=>[i+1,s.id,s.name,s.grade,t(s.prog),s.sex||"",s.pn||"",s.pp||""])}}
+ if(RT==="marks"){return{title:t("r_marks"),h:[t("name"),...subs(),t("total"),t("avg"),t("rank")],r:stuBy(G,P).map(s=>{const m=(S.mk[s.id]||{})[TM]||{},x=tm(s.id,TM),rr=rankOf(s.id,TM);return[s.name,...subs().map(j=>{const tot=typeof mkTotal==="function"?mkTotal(m[j]):(m[j]!=null?m[j]:"");return tot!=null?tot:""}),x.n?r1(x.sum):"",x.n?r1(x.avg):"",rr?rr.r:""]})}}
+ if(RT==="fees"){return{title:t("r_fees"),h:[t("name"),t("grade"),t("prog"),t("due"),t("paid"),t("bal")],r:S.stu.map(s=>[s.name,s.grade,t(s.prog),dueOf(s),paidOf(s.id),dueOf(s)-paidOf(s.id)]).sort((a,b)=>b[5]-a[5])}}
+ if(RT==="stu"){return{title:t("r_stu"),h:["ID",t("name"),t("grade"),t("prog"),t("sex"),t("pn"),t("phone")],r:S.stu.slice().sort((a,b)=>a.grade-b.grade||a.prog.localeCompare(b.prog)||byName(a,b)).map(s=>[s.id,s.name,s.grade,t(s.prog),s.sex||"",s.pn||"",s.pp||""])}}
+ const bt=id=>(S.lib.find(x=>x.id===id)||{title:"?"}).title;
+ return{title:t("r_over"),h:[t("booktitle"),t("borrower"),t("duedate")],r:S.loan.filter(l=>!l.ret&&l.due<day()).map(l=>[bt(l.bid),l.who.startsWith("S:")?stuName(l.who.slice(2)):tname(l.who.slice(2)),l.due])};
+}
+function rtable(d){return `<table class="ct"><tr>${d.h.map(x=>`<th>${e(x)}</th>`).join("")}</tr>${d.r.map(r=>`<tr>${r.map(c=>`<td>${e(c)}</td>`).join("")}</tr>`).join("")}</table>`}
+function repS(){
+ const types=["roster","att","satt","marks","fees","stu","over"];
+ const needC=RT==="att"||RT==="marks",needA=RT==="att"||RT==="satt";
+ const d=rdata();
+ return `<div class="card"><div class="row">${sel("rt",types.map(k=>[k,t("r_"+k)]),RT,`onchange="RT=this.value;draw()" aria-label="${t("rtype")}"`)}</div>
+ ${needC?filt():""}${RT==="marks"?`<div class="row">${termSel()}</div>`:""}
+ ${needA?`<div class="row">${sel("rap",[["day",t("rday")],["week",t("rweek")],["month",t("rmonth")]],RAP,`onchange="RAP=this.value;draw()" aria-label="${t("rper")}"`)}
+ ${RAP==="month"?`<input type="month" id="rmo" value="${e(RMo)}" onchange="RMo=this.value||day().slice(0,7);draw()" aria-label="${t("rm")}">`:`<input type="date" id="rdt" value="${e(RDate)}" onchange="RDate=this.value||day();draw()" aria-label="${t("rd")}">`}</div>`:""}
+ <div class="row"><button onclick="repCSV()">${t("csv")}</button><button class="ghost" onclick="repPrint()">${t("print")}</button></div>
+ <p class="mut">${e(d.title||"")}</p></div>
+ <div class="card tbl">${d.r.length?rtable(d):t("none")}</div>`;
+}
+function repCSV(){const d=rdata();const q=c=>'"'+String(c).replace(/"/g,'""')+'"';dl("naleti-"+(RT||"")+"-"+(RAP||"")+"-"+day()+".csv","\ufeff"+[d.h,...d.r].map(r=>r.map(q).join(",")).join("\r\n"),"text/csv")}
+function repPrint(){const d=rdata();printHTML(`<h2>${e(S.cfg.school)}</h2><h3>${e(d.title||t("r_"+RT))}</h3>`+rtable(d))}
+function dl(name,text,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type||"application/json"}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
+
+/* ---------- accounts ---------- */
+function usrS(){return MODE==="server"?usrServer():usrLocal()}
+function usrServer(){
+ const L=UR==="teacher"?teachers().map(x=>[x.id,x.name]):S.stu.slice().sort(byName).map(x=>[x.id,x.id+" "+x.name]);
+ return `<div class="card"><h2>${t("create")}</h2><div class="row">${sel("ur",[["teacher",t("teacher")],["parent",t("parent")]],UR,`onchange="UR=this.value;draw()" aria-label="${t("acct")}"`)}${sel("ul",[["","-"],...L],"",`aria-label="${t("name")}"`)}</div>
+ <button onclick="mkAcc()">${t("create")}</button>
+ ${NEWACC?`<p class="warn"><b>${e(NEWACC.id)}</b> / <b style="font-size:20px">${e(NEWACC.tmp)}</b><br><span class="mut">${t("tmpnote")}</span></p>`:""}${msgH()}</div>
+ <div class="card">${USERS.map(u=>`<div class="li"><div>${e(u.name)}<div class="mut">${e(u.id)} · ${t(u.role)}${u.ok?"":" · "+t("blockedS")}</div></div>${u.role==="admin"?"":`<div class="fix"><button class="ghost" onclick="uop('${e(u.id)}','toggle')">${u.ok?t("block"):t("allow")}</button> <button class="ghost" onclick="uop('${e(u.id)}','reset')">${t("reset")}</button> <button class="ghost" onclick="uop('${e(u.id)}','delete')">${t("del")}</button></div>`}</div>`).join("")}</div>`;
+}
+async function mkAcc(){
+ const link=val("ul");if(!link){msg=t("nolink");return draw()}
+ try{NEWACC=await api("POST","/users",{role:UR,link});msg="";await loadUsers()}catch(x){msg=t(x)}draw();
+}
+async function uop(id,op){
+ if(op==="delete"&&!confirm(t("sure")))return;
+ try{const r=await api("POST","/users/"+encodeURIComponent(id)+"/"+op);NEWACC=r.tmp?{id,tmp:r.tmp}:null;await loadUsers()}catch(x){msg=t(x)}draw();
+}
+function usrLocal(){
+ const tc=teachers(),L=stuBy(G,P);
+ const row=(kind,x)=>`<div class="li"><div>${e(x.name)}<div class="mut">${e(x.id)}</div></div><div class="fix"><span class="pill ${x.ph?"ok":"bad"}">${x.ph?t("pinset"):t("nopin")}</span> <button class="ghost" onclick="setPin('${kind}','${e(x.id)}')">${t("setpin")}</button></div></div>`;
+ return (PINL.length?`<div class="card"><h2>${t("pinlist")}</h2><table class="ct">${PINL.map(r=>`<tr><td>${e(r[0])}</td><td>${e(r[1])}</td><td><b>${e(r[2])}</b></td></tr>`).join("")}</table><p><button onclick="printPins()">${t("print")}</button></p></div>`:"")+
+ `<div class="card"><h2>${t("teacher")}</h2>${tc.map(x=>row("staff",x)).join("")||t("none")}</div>
+ <div class="card"><h2>${t("parent")}</h2>${filt()}<button class="ghost" onclick="pinAll()">${t("pinall")}</button>${msgH()}${L.map(x=>row("stu",x)).join("")||t("none")}</div>`;
+}
+function printPins(){printHTML(`<h2>${e(S.cfg.school)}</h2><table class="ct">${PINL.map(r=>`<tr><td>${e(r[0])}</td><td>${e(r[1])}</td><td><b>${e(r[2])}</b></td></tr>`).join("")}</table>`)}
+async function setPin(kind,id){const x=S[kind].find(y=>y.id===id),pin=rnd4();x.ph=hh(id,pin);PINL.push([x.id,x.name,pin]);msg=`${x.id}: ${t("pinnote")} ${pin}`;await savec(kind);draw()}
+async function pinAll(){stuBy(G,P).forEach(x=>{if(!x.ph){const pin=rnd4();x.ph=hh(x.id,pin);PINL.push([x.id,x.name,pin])}});await savec("stu");draw()}
+
+/* ---------- settings ---------- */
+function setS(){
+ const th=(()=>{try{return localStorage.getItem("nth")||""}catch(_){return""}})(),adm=U.role==="admin";
+ return `<div class="card"><h2>${t("set")}</h2><p class="mut">${e(U.name)} · ${e(U.id)}</p><div class="row">
+ <select aria-label="${t("lang")}" onchange="setLang(this.value)"><option value="en"${LG==="en"?" selected":""}>English</option><option value="am"${LG==="am"?" selected":""}>አማርኛ</option><option value="om"${LG==="om"?" selected":""}>Afaan Oromoo</option></select>
+ <select aria-label="${t("theme")}" onchange="setTheme(this.value);draw()"><option value=""${th===""?" selected":""}>${t("auto")}</option><option value="light"${th==="light"?" selected":""}>${t("light")}</option><option value="dark"${th==="dark"?" selected":""}>${t("dark")}</option></select></div></div>`+
+ (adm?`<div class="card"><h2>${t("school")}</h2><div class="row"><input id="cs1" value="${e(S.cfg.school)}" placeholder="${t("school")}" aria-label="${t("school")}"><input id="cs2" value="${e(S.cfg.year)}" placeholder="${t("year")}" aria-label="${t("year")}"></div>
+ <div class="row"><input id="cs3" value="${e(S.cfg.terms.join(", "))}" placeholder="${t("terms")}" aria-label="${t("terms")}"></div><div class="row"><input id="cs4" value="${e(subs().join(", "))}" placeholder="${t("subjs")}" aria-label="${t("subjs")}"><input id="cs5" type="number" min="0" max="100" value="${S.cfg.pass==null?50:S.cfg.pass}" aria-label="${t("passm")}"></div>
+ <button onclick="saveCfg()">${t("save")}</button>${msgH()}</div>
+ ${adm?`<div class="card"><h2>${t("geo")}</h2>
+ <p class="mut">${t("geoNeed")}</p>
+ <div class="row"><label><input type="checkbox" id="geoOn" ${S.cfg.geoOn?"checked":""}> ${t("geoOn")}</label></div>
+ <div class="row"><input id="geoLat" type="number" step="any" value="${S.cfg.geoLat!=null?S.cfg.geoLat:""}" placeholder="${t("geoLat")}"><input id="geoLng" type="number" step="any" value="${S.cfg.geoLng!=null?S.cfg.geoLng:""}" placeholder="${t("geoLng")}"></div>
+ <div class="row"><input id="geoRad" type="number" min="30" max="2000" value="${S.cfg.geoRad||150}" placeholder="${t("geoRad")}"></div>
+ <div class="row"><label><input type="checkbox" id="geoWinOn" ${S.cfg.geoWinOn?"checked":""}> ${t("geoWinOn")}</label></div>
+ <div class="row"><input id="geoWinFrom" value="${e(S.cfg.geoWinFrom||"07:00")}" placeholder="${t("geoWinFrom")}"><input id="geoWinTo" value="${e(S.cfg.geoWinTo||"17:00")}" placeholder="${t("geoWinTo")}"></div>
+ <p class="mut">${t("geoApkOnly")}</p>
+ <div class="row"><button onclick="saveGeoCfg()">${t("save")}</button>
+ <button class="ghost" onclick="geoSetSchoolHere()">${t("geoSet")}</button>
+ <button class="ghost" onclick="geoCheckBtn()">${t("geoCheck")}</button></div>
+ ${msgH()}</div>`:""}
+ <div class="card"><div class="row"><button onclick="backup()">${t("backup")}</button><label class="fix"><span class="ghost" style="display:inline-block;border:1px solid var(--g);border-radius:6px;padding:9px 14px;font-weight:700;color:var(--g);cursor:pointer">${t("restore")}</span><input type="file" accept=".json,application/json" style="display:none" onchange="restore(this)"></label></div></div>`:"")+pwS();
+}
+async function saveGeoCfg(){
+ S.cfg.geoOn=!!($("geoOn")&&$("geoOn").checked);
+ S.cfg.geoWinOn=!!($("geoWinOn")&&$("geoWinOn").checked);
+ S.cfg.geoWinFrom=val("geoWinFrom")||"07:00";
+ S.cfg.geoWinTo=val("geoWinTo")||"17:00";
+ const lat=parseFloat(val("geoLat")),lng=parseFloat(val("geoLng")),rad=Math.max(30,+val("geoRad")||150);
+ S.cfg.geoLat=isNaN(lat)?null:lat;S.cfg.geoLng=isNaN(lng)?null:lng;S.cfg.geoRad=rad;
+ await savec("cfg");msg=t("saved");draw();
+}
+async function saveCfg(){
+ const terms=val("cs3").split(",").map(x=>x.trim()).filter(Boolean),sj=val("cs4").split(",").map(x=>x.trim()).filter(Boolean);
+ S.cfg.school=val("cs1")||S.cfg.school;S.cfg.year=val("cs2");S.cfg.terms=terms.length?terms:S.cfg.terms;S.cfg.subj=sj.length?sj:subs();S.cfg.pass=Math.max(0,Math.min(100,+val("cs5")||0));
+ await savec("cfg");msg=t("saved");draw();
+}
+async function backup(){
+ try{const j=MODE==="server"?await api("GET","/backup"):{app:"naleti",v:1,docs:S};dl("naleti-backup-"+day()+".json",JSON.stringify(j))}catch(x){msg=t(x);draw()}
+}
+function restore(inp){
+ const f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=async()=>{
+  try{
+   const j=JSON.parse(r.result);if(j.app!=="naleti"||!j.docs||typeof j.docs!=="object")throw 0;
+   const d=norm(j.docs);if(!Array.isArray(d.stu)||!Array.isArray(d.staff)||!Array.isArray(d.tt))throw 0;
+   if(!confirm(t("sure")))return;
+   if(MODE==="server"){await api("POST","/restore",{docs:j.docs});await loadState()}
+   else{const keep={h:S.cfg.adminH,d:S.cfg.adminDef};S=d;if(!S.cfg.adminH){S.cfg.adminH=keep.h;S.cfg.adminDef=keep.d}persist()}
+   msg=t("restoreok");draw();
+  }catch(x){msg=typeof x==="string"?t(x):t("badfile");draw()}
+ };
+ r.readAsText(f);
+}
+
+/* ---------- start ---------- */
+async function boot(){
+ if(/^https?:$/.test(location.protocol)){try{const i=await api("GET","/info");MODE="server";S.cfg.school=i.school||S.cfg.school}catch(x){}}
+ if(MODE==="local")loadLocal();
+ else if(TOK){try{await loadState()}catch(x){TOK="";try{localStorage.removeItem("ntok")}catch(_){}}}
+ draw();
+}
+try{if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){})}}catch(e){}
+boot();
+</script>
+</body>
+</html>
